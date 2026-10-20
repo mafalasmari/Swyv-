@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/*
+ * SWYV design system — dark, sharp, data-dense.
+ * Brand sheet v0.1: Red #D7141A · Night Black #121212 · Asphalt #2A2A2C ·
+ * Concrete #EDEDED · Steel #8A8D91 · Delivered #1FA463 · Pending #F2A900.
+ */
+@theme {
+  --font-sans: var(--font-poppins), var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-plex-arabic), var(--font-poppins), sans-serif;
+  --font-brand: var(--font-poppins), var(--font-plex-arabic), sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --color-red: #d7141a;
+  --color-red-bright: #f0323a;
+  --color-night: #121212;
+  --color-ink: #0b0b0c;
+  --color-asphalt: #2a2a2c;
+  --color-panel: #1a1a1c;
+  --color-line: #2f2f32;
+  --color-concrete: #ededed;
+  --color-steel: #8a8d91;
+  --color-delivered: #1fa463;
+  --color-pending: #f2a900;
+
+  /* Disposition routes — validated categorical set for the dark panel surface */
+  --color-route-restock: #4c8df6;
+  --color-route-refurbish: #be831c;
+  --color-route-liquidate: #21a090;
+  --color-route-recycle: #9677eb;
+  --color-route-supplier: #e5484d;
+
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-full: 9999px;
+
+  --animate-pulse-dot: pulse-dot 1.6s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.5s ease-out both;
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-night font-sans text-concrete antialiased;
+  }
+
+  html[lang="ar"] body {
+    @apply font-arabic;
+  }
+
+  /* Letter-spacing breaks Arabic letter joining, so Arabic labels drop the mono
+     face and tracking; numbers (.num) keep the mono face in both languages. */
+  html[lang="ar"] .font-mono:not(.num) {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    @apply bg-red text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-red;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button {
+    opacity: 0.4;
+  }
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Hairline technical grid used behind hero blocks */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(237 237 237 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(237 237 237 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

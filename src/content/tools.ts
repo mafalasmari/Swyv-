@@ -1,0 +1,142 @@
+import { t } from "@/i18n/localize";
+
+export const savingsCopy = {
+  inputs: {
+    branches: t("عدد الفروع", "Number of branches"),
+    deliveriesPerWeek: t("مرات التوصيل أسبوعياً", "Deliveries per week"),
+    returnPickupsPerMonth: t("رحلات سحب المرتجعات شهرياً", "Return pickups per month"),
+    costPerTrip: t("تكلفة الرحلة الحالية بالريال", "Current cost per trip (SAR)"),
+  },
+  outputs: {
+    tripsSaved: t("الرحلات المنفصلة التي توفرها شهرياً", "Separate trips saved per month"),
+    monthly: t("التوفير الشهري التقديري", "Estimated monthly saving"),
+    annual: t("التوفير السنوي التقديري", "Estimated annual saving"),
+  },
+  formula: t(
+    "التوفير = الرحلات المنفصلة الملغاة × (تكلفتها − رسم نقطة السحب 40 ريال).",
+    "Saving = separate trips removed × (their cost − the SAR 40 pickup-stop fee).",
+  ),
+  note: t(
+    "الأرقام تقديرية للتوضيح، ونحسب الرقم الفعلي في تجربة الثلاثين يوماً.",
+    "Figures are illustrative; we measure your real number in the 30-day pilot.",
+  ),
+};
+
+export const engineCopy = {
+  inputTitle: t("بيانات الصنف المرتجع", "Returned item"),
+  rulesTitle: t("قواعدك", "Your rules"),
+  priorityTitle: t("الأولوية", "Priority"),
+  category: t("الفئة", "Category"),
+  condition: t("رمز الحالة", "Condition code"),
+  unitValue: t("قيمة الوحدة (ريال)", "Unit value (SAR)"),
+  qty: t("الكمية", "Quantity"),
+  daysToExpiry: t("أيام حتى الانتهاء", "Days to expiry"),
+  noExpiry: t("بدون تاريخ انتهاء", "No expiry date"),
+  packaging: t("الغلاف سليم", "Packaging intact"),
+  minShelf: t("أقل صلاحية للإعادة للرف (يوم)", "Min shelf life to restock (days)"),
+  supplier: t("المورد يقبل المرتجعات", "Supplier accepts returns"),
+  weights: { value: t("القيمة", "Value"), speed: t("السرعة", "Speed"), green: t("البيئة", "Green") },
+  recommended: t("التوجيه المقترح", "Recommended route"),
+  why: t("لماذا", "Why"),
+  options: t("كل الخيارات", "All options"),
+  headers: {
+    route: t("الوجهة", "Route"),
+    score: t("الدرجة", "Score"),
+    recovery: t("الاسترداد", "Recovery"),
+    net: t("صافي القيمة", "Net value"),
+    days: t("أيام", "Days"),
+    co2: t("CO₂ مُتجنَّب", "CO₂ avoided"),
+  },
+  blocked: t("غير متاح", "Not available"),
+  decisionNote: t(
+    "المحرك يقترح فقط. لا نبيع ولا نشتري، والقرار النهائي لك.",
+    "The engine only proposes. We don't buy or sell; the final decision is yours.",
+  ),
+  batchTitle: t("تشغيل على نموذج فحص كامل", "Run on a full audit form"),
+  batchDescription: t(
+    "نفس القواعد على أسطر نموذج فحص توضيحي من فرع الملقا.",
+    "The same rules applied to the lines of a sample audit form from Al Malqa branch.",
+  ),
+  batchHeaders: {
+    sku: t("الصنف", "Item"),
+    code: t("الحالة", "Code"),
+    qty: t("الكمية", "Qty"),
+    route: t("الوجهة", "Route"),
+    net: t("صافي القيمة", "Net value"),
+  },
+  batchTotal: t("الإجمالي", "Total"),
+  yes: t("نعم", "Yes"),
+  no: t("لا", "No"),
+};
+
+export const telemetryCopy = {
+  live: t("مباشر", "Live"),
+  paused: t("متوقف", "Paused"),
+  pause: t("إيقاف", "Pause"),
+  resume: t("تشغيل", "Resume"),
+  sample: t("بيانات توضيحية", "Sample data"),
+  kpis: {
+    active: t("أصول نشطة", "Active assets"),
+    avgDwell: t("متوسط البقاء", "Avg dwell"),
+    overSla: t("تجاوزت الحد", "Over limit"),
+    exceptions: t("ملاحظات مفتوحة", "Open exceptions"),
+  },
+  filters: {
+    search: t("ابحث بالرقم أو الموقع", "Search ID or location"),
+    type: t("النوع", "Type"),
+    status: t("الحالة", "Status"),
+    zone: t("المنطقة", "Zone"),
+    direction: t("الاتجاه", "Direction"),
+    all: t("الكل", "All"),
+    inbound: t("وارد", "Inbound"),
+    return: t("مرتجع", "Return"),
+    overOnly: t("المتجاوزة فقط", "Over limit only"),
+    reset: t("مسح الفلاتر", "Clear filters"),
+  },
+  headers: {
+    id: t("الرقم", "ID"),
+    type: t("النوع", "Type"),
+    location: t("الموقع", "Location"),
+    status: t("الحالة", "Status"),
+    dwell: t("زمن البقاء", "Dwell"),
+    ping: t("آخر إشارة", "Last ping"),
+  },
+  showing: t("عرض", "Showing"),
+  of: t("من", "of"),
+  empty: t("لا توجد أصول تطابق الفلاتر.", "No assets match these filters."),
+  limit: t("الحد", "Limit"),
+  ago: t("منذ", "ago"),
+};
+
+export const simulatorCopy = {
+  sample: t("محاكاة توضيحية", "Illustrative simulation"),
+  model: t(
+    "نموذج قرار قائم على قواعد وأوزان شفافة، وليس تنبؤاً من بيانات حقيقية.",
+    "A transparent rules-and-weights decision model, not a forecast from real data.",
+  ),
+  inputs: {
+    sector: t("القطاع", "Sector"),
+    units: t("وحدات مرتجعة شهرياً", "Returned units per month"),
+    value: t("متوسط قيمة الوحدة (ريال)", "Average unit value (SAR)"),
+    branches: t("عدد الفروع", "Branches"),
+    backhaul: t("سحب المرتجعات في رحلة التوصيل", "Collect returns on the delivery trip"),
+    supplier: t("الموردون يقبلون المرتجعات", "Suppliers accept returns"),
+    strategy: t("الاستراتيجية", "Strategy"),
+    weights: t("أوزان القرار", "Decision weights"),
+  },
+  kpis: {
+    recovered: t("القيمة المستردة شهرياً", "Recovered value / month"),
+    uplift: t("مقارنة بالوضع الحالي", "vs. today"),
+    cycle: t("متوسط زمن الإغلاق", "Avg time to close"),
+    cycleBaseline: t("اليوم: 30 يوماً", "Today: 30 days"),
+    co2: t("CO₂ مُتجنَّب شهرياً", "CO₂ avoided / month"),
+    trips: t("رحلات منفصلة ملغاة", "separate trips removed"),
+  },
+  chartTitle: t("القيمة المستردة التراكمية خلال 12 شهراً", "Cumulative recovered value over 12 months"),
+  baseline: t("الوضع الحالي", "Today"),
+  withSwyv: t("مع سوايف", "With SWYV"),
+  month: t("شهر", "Month"),
+  allocationTitle: t("توزيع المرتجعات على الوجهات", "How returns are routed"),
+  units: t("وحدة", "units"),
+  tableToggle: t("عرض البيانات كجدول", "Show data as a table"),
+};
