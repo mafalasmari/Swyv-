@@ -1,72 +1,59 @@
-import type { ReactNode } from "react";
-import type { FooterColumn, NavLink, SocialLink } from "@/lib/types";
-import { cn } from "@/lib/cn";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { SocialLinks } from "@/components/ui/SocialLinks";
+import { Logo } from "@/components/ui/Logo";
 
-type SiteFooterProps = {
-  logo: ReactNode;
-  columns: FooterColumn[];
-  socials: SocialLink[];
+type FooterLink = { href: string; label: string };
+
+export type FooterCopy = {
+  about: string;
+  servicesTitle: string;
+  services: FooterLink[];
+  companyTitle: string;
+  company: FooterLink[];
   copyright: string;
-  legalLinks?: NavLink[];
-  /** Extra block shown next to the logo (e.g. a tagline or contact prompt). */
-  aside?: ReactNode;
-  className?: string;
+  legal: FooterLink[];
 };
 
-export function SiteFooter({
-  logo,
-  columns,
-  socials,
-  copyright,
-  legalLinks = [],
-  aside,
-  className,
-}: SiteFooterProps) {
+export function SiteFooter({ copy }: { copy: FooterCopy }) {
   return (
-    <footer className={cn("py-14 lg:py-20", className)}>
-      <Container className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
-        <div className="flex flex-col gap-6">
-          {logo}
-          {aside}
-          <SocialLinks links={socials} />
+    <footer className="border-t border-line bg-ink">
+      <Container className="grid gap-12 py-14 md:grid-cols-[1.4fr_1fr_1fr] lg:py-20">
+        <div className="flex max-w-sm flex-col gap-5">
+          <Logo withTagline className="text-base" />
+          <p className="text-sm leading-relaxed text-steel">{copy.about}</p>
         </div>
-
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
-          {columns.map((column) => (
-            <nav key={column.title} aria-label={column.title}>
-              <p className="mb-4 font-mono text-xs tracking-[0.18em] uppercase opacity-60">
-                {column.title}
-              </p>
-              <ul className="grid gap-2.5 text-sm">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <a href={link.href} className="opacity-85 transition-opacity hover:opacity-100 hover:underline">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-        </div>
+        <FooterColumn title={copy.servicesTitle} links={copy.services} />
+        <FooterColumn title={copy.companyTitle} links={copy.company} />
       </Container>
-
-      <Container className="mt-14 flex flex-col gap-4 border-t border-current/15 pt-6 text-xs opacity-70 sm:flex-row sm:items-center sm:justify-between">
-        <p>{copyright}</p>
-        {legalLinks.length > 0 && (
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {legalLinks.map((link) => (
-              <li key={link.label}>
-                <a href={link.href} className="hover:underline">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+      <Container className="flex flex-col gap-3 border-t border-line py-6 text-xs text-steel sm:flex-row sm:items-center sm:justify-between">
+        <p>{copy.copyright}</p>
+        <ul className="flex gap-6">
+          {copy.legal.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} className="hover:text-concrete">
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Container>
     </footer>
+  );
+}
+
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
+  return (
+    <nav aria-label={title}>
+      <p className="mb-4 font-mono text-xs tracking-[0.16em] text-steel uppercase">{title}</p>
+      <ul className="grid gap-2.5 text-sm">
+        {links.map((link) => (
+          <li key={link.href + link.label}>
+            <Link href={link.href} className="text-concrete/85 transition-colors hover:text-red-bright">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

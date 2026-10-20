@@ -12,10 +12,14 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "a.storyblok.com", pathname: "/f/337048/**" },
-      { protocol: "https", hostname: "www.optoro.com", pathname: "/wp-content/uploads/**" },
-    ],
+    formats: ["image/avif", "image/webp"],
+  },
+  experimental: {
+    globalNotFound: true,
+    serverActions: {
+      // Carrier documents and CVs are capped at 4 MB in the form validation.
+      bodySizeLimit: "5mb",
+    },
   },
 };
 

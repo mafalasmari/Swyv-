@@ -1,23 +1,22 @@
-import type { FaqItem } from "@/lib/types";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { ChevronDownIcon } from "./icons";
 
-type AccordionProps = {
-  items: FaqItem[];
-  className?: string;
-};
+export type AccordionItem = { id?: string; question: string; answer: ReactNode };
 
 /** Native <details> accordion: accessible and works without JavaScript. */
-export function Accordion({ items, className }: AccordionProps) {
+export function Accordion({ items, className }: { items: AccordionItem[]; className?: string }) {
   return (
-    <div className={cn("divide-y divide-current/15 border-y border-current/15", className)}>
+    <div className={cn("border-t border-line", className)}>
       {items.map((item, i) => (
-        <details key={item.question} className="group py-5" open={i === 0}>
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left text-lg font-medium">
-            {item.question}
-            <ChevronDownIcon className="mt-1 size-5 shrink-0 transition-transform duration-300 group-open:rotate-180" />
+        <details key={item.question} id={item.id} className="group border-b border-line" open={i === 0}>
+          <summary className="flex cursor-pointer list-none items-start gap-4 py-5 text-start text-lg font-medium hover:text-white">
+            <span className="num mt-1 shrink-0 text-xs text-red">{String(i + 1).padStart(2, "0")}</span>
+            <span className="flex-1">{item.question}</span>
+            <span aria-hidden className="mt-1 font-mono text-steel transition-transform group-open:rotate-45">
+              +
+            </span>
           </summary>
-          <p className="mt-3 max-w-3xl leading-relaxed opacity-75">{item.answer}</p>
+          <div className="max-w-3xl ps-9 pb-6 leading-relaxed text-steel">{item.answer}</div>
         </details>
       ))}
     </div>

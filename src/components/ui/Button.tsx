@@ -2,14 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant =
-  | "lime"
-  | "orange"
-  | "dark"
-  | "light"
-  | "outline-light"
-  | "outline-dark"
-  | "link";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "link";
 
 export type ButtonProps = {
   href?: string;
@@ -18,47 +11,46 @@ export type ButtonProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
   onClick?: () => void;
 };
 
 const variants: Record<ButtonVariant, string> = {
-  lime: "bg-terminal-lime text-terminal-green hover:bg-white",
-  orange: "bg-optoro-orange text-white hover:bg-optoro-graphite",
-  dark: "bg-terminal-green text-white hover:bg-black",
-  light: "bg-white text-optoro-orange hover:bg-optoro-mist",
-  "outline-light": "border border-white/40 text-white hover:border-white hover:bg-white/10",
-  "outline-dark": "border border-current hover:bg-black/5",
-  link: "h-auto! px-0! underline-offset-4 hover:underline",
+  primary: "bg-red text-white hover:bg-red-bright",
+  secondary: "border border-concrete/30 text-concrete hover:border-concrete hover:bg-concrete/5",
+  ghost: "text-steel hover:text-concrete",
+  link: "text-red underline-offset-4 hover:underline",
 };
 
 const sizes = {
-  sm: "h-9 px-4 text-xs",
+  sm: "h-9 px-3.5 text-[13px]",
   md: "h-11 px-5 text-sm",
-  lg: "h-13 px-7 text-base",
+  lg: "h-13 px-6 text-base",
 };
 
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 
-/** One button style for links and form actions alike. */
+/** Single button primitive for links and form actions. Corners stay sharp by design. */
 export function Button({
   href,
   children,
-  variant = "lime",
+  variant = "primary",
   size = "md",
   className,
   type = "button",
+  disabled,
   onClick,
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-sm font-medium whitespace-nowrap transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
-    sizes[size],
+    "inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50",
+    variant !== "link" && sizes[size],
     variants[variant],
     className,
   );
 
   if (!href) {
     return (
-      <button type={type} onClick={onClick} className={classes}>
+      <button type={type} onClick={onClick} disabled={disabled} className={classes}>
         {children}
       </button>
     );

@@ -3,42 +3,10 @@
 import { useId, useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type TabItem = {
-  id: string;
-  label: string;
-  content: ReactNode;
-};
+export type TabItem = { id: string; label: string; content: ReactNode };
 
-type TabsProps = {
-  items: TabItem[];
-  variant?: "underline" | "pill";
-  className?: string;
-  listClassName?: string;
-};
-
-const tabStyles = {
-  underline: {
-    list: "gap-6 border-b border-current/15",
-    tab: "-mb-px border-b-2 py-3",
-    active: "border-current",
-    idle: "border-transparent opacity-60 hover:opacity-100",
-  },
-  pill: {
-    list: "flex-wrap gap-2",
-    tab: "rounded-sm border px-4 py-2",
-    active: "border-current bg-current/10",
-    idle: "border-current/20 opacity-70 hover:opacity-100",
-  },
-};
-
-/** Accessible tab list (arrow keys move between tabs). */
-export function Tabs({
-  items,
-  variant = "underline",
-  className,
-  listClassName,
-}: TabsProps) {
-  const styles = tabStyles[variant];
+/** Accessible tab list; arrow keys follow the document direction. */
+export function Tabs({ items, className }: { items: TabItem[]; className?: string }) {
   const [active, setActive] = useState(0);
   const baseId = useId();
 
@@ -50,10 +18,7 @@ export function Tabs({
 
   return (
     <div className={className}>
-      <div
-        role="tablist"
-        className={cn("flex overflow-x-auto [scrollbar-width:none]", styles.list, listClassName)}
-      >
+      <div role="tablist" className="flex overflow-x-auto border-b border-line [scrollbar-width:none]">
         {items.map((item, i) => (
           <button
             key={item.id}
@@ -65,20 +30,19 @@ export function Tabs({
             tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
             onKeyDown={(e) => {
-              if (e.key === "ArrowRight") focusTab(i + 1);
-              if (e.key === "ArrowLeft") focusTab(i - 1);
+              const rtl = getComputedStyle(e.currentTarget).direction === "rtl";
+              if (e.key === "ArrowRight") focusTab(rtl ? i - 1 : i + 1);
+              if (e.key === "ArrowLeft") focusTab(rtl ? i + 1 : i - 1);
             }}
             className={cn(
-              "shrink-0 font-mono text-xs tracking-widest uppercase transition",
-              styles.tab,
-              i === active ? styles.active : styles.idle,
+              "-mb-px shrink-0 border-b-2 px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors",
+              i === active ? "border-red text-concrete" : "border-transparent text-steel hover:text-concrete",
             )}
           >
             {item.label}
           </button>
         ))}
       </div>
-
       {items.map((item, i) => (
         <div
           key={item.id}
@@ -86,7 +50,7 @@ export function Tabs({
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${i}`}
           hidden={i !== active}
-          className="animate-fade-up"
+          className="animate-fade-up pt-8"
         >
           {item.content}
         </div>
