@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Terminal palette */
+  --color-terminal-green: #052424;
+  --color-terminal-lime: #abff02;
+  --color-terminal-orange: #fb6b3c;
+  --color-terminal-gray: #454742;
+  --color-terminal-mist: #f0f0f0;
+
+  /* Optoro palette */
+  --color-optoro-orange: #faa818;
+  --color-optoro-graphite: #373737;
+  --color-optoro-gray: #595959;
+  --color-optoro-mist: #fafafa;
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-fade-up: fade-up 0.6s ease-out both;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-neutral-900 antialiased;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
