@@ -1,5 +1,6 @@
 import { LegalDocument } from "@/components/sections/LegalDocument";
 import { PageHero } from "@/components/sections/PageHero";
+import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { legal } from "@/content/legal";
 import { routes } from "@/content/site";
 import { localize } from "@/i18n/localize";
@@ -15,7 +16,9 @@ export default async function TermsPage({ params }: PageProps<"/[lang]/terms">) 
   const c = localize(legal, locale);
   return (
     <>
-      <PageHero eyebrow="Legal" title={c.terms.title} />
+      <PageHero eyebrow={c.eyebrow} title={c.terms.title} />
+      <NotchSeparator from="dark" to="light" />
+      {/* No closing CTA: selling after a legal document is out of place. */}
       <LegalDocument note={c.reviewNote} pending={c.pending} sections={c.terms.sections} />
     </>
   );
