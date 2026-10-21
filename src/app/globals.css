@@ -207,3 +207,129 @@ html[lang="ar"] .font-mono:not(.num) {
     scroll-behavior: auto !important;
   }
 }
+
+/* ───────────── Intro loader ─────────────
+   Timeline (ms): 0–350 chevron draws · 350+70n letters rise (500 each) ·
+   900–1200 breathe · 1200–1900 split · 1900 removed. Keep TOTAL_MS in sync. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--swyv-concrete);
+  color: var(--swyv-red);
+}
+.intro[data-intro="skip"],
+.intro[data-intro="done"] {
+  display: none;
+}
+.intro-half {
+  position: relative;
+  height: 50svh;
+  overflow: hidden;
+  background: var(--swyv-concrete);
+}
+.intro-stage {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+}
+.intro-stage-top {
+  top: 0;
+}
+.intro-stage-bottom {
+  bottom: 0;
+}
+.intro-mark {
+  position: relative;
+  display: flex;
+  font-size: clamp(4.5rem, 18vw, 11rem);
+  line-height: 1;
+}
+.intro .char-wrapper {
+  display: inline-block;
+  overflow: clip;
+}
+.intro .char {
+  display: block;
+  height: 1.249em;
+  width: 100%;
+  transform: translateY(100%);
+}
+.intro-chevron {
+  position: absolute;
+  /* Sits after the "v": base just above the baseline, top below the x-height. */
+  left: calc(100% + 0.04em);
+  top: 0.66em;
+  width: 0.34em;
+  height: 0.29em;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.2;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.intro[data-intro="play"] .intro-half {
+  will-change: transform;
+}
+.intro[data-intro="play"] .intro-chevron {
+  animation: intro-draw 350ms var(--ease-reveal) forwards;
+}
+.intro[data-intro="play"] .char {
+  /* Per-letter delay (350ms + 70ms × index) is set inline. */
+  animation: intro-rise 500ms var(--ease-reveal) forwards;
+}
+.intro[data-intro="play"] .intro-mark {
+  animation: intro-breathe 300ms var(--ease-out) 900ms both;
+}
+.intro[data-intro="play"] .intro-half-top {
+  animation: intro-split-up 700ms cubic-bezier(0.76, 0, 0.24, 1) 1200ms forwards;
+}
+.intro[data-intro="play"] .intro-half-bottom {
+  animation: intro-split-down 700ms cubic-bezier(0.76, 0, 0.24, 1) 1200ms forwards;
+}
+/* Safety net: hides the layer at 1900ms even if JavaScript never runs. */
+.intro[data-intro="play"] {
+  animation: intro-hide 1ms linear 1900ms forwards;
+}
+
+@keyframes intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes intro-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes intro-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+@keyframes intro-split-up {
+  to {
+    transform: translateY(-100%);
+  }
+}
+@keyframes intro-split-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes intro-hide {
+  to {
+    visibility: hidden;
+  }
+}

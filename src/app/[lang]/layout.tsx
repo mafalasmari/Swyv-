@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { IntroLoader } from "@/components/layout/IntroLoader";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -31,7 +32,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   return (
     <html lang={locale} dir={dirOf(locale)} className={`${fontVariables} h-full`}>
-      <body className="flex min-h-full flex-col">
+      {/* The intro's boot script sets body overflow before hydration. */}
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
+        <IntroLoader />
         <a
           href="#main"
           className="sr-only z-[60] bg-red px-4 py-2 text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4"
