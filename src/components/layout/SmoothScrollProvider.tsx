@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+/** Touch-only screens: Lenis smooths the wheel, never touch scrolling, so it would only cost frames. */
+const TOUCH_ONLY = "(hover: none) and (pointer: coarse)";
 
 let registered = false;
 let current: Lenis | null = null;
@@ -39,7 +41,7 @@ export function refreshScrollTriggers() {
 
 /**
  * Smooth scrolling (Lenis) driven by GSAP's ticker, with ScrollTrigger kept in sync.
- * Never initialised for prefers-reduced-motion: the page keeps native scrolling.
+ * Never initialised for prefers-reduced-motion or on touch-only screens: the page keeps native scrolling.
  */
 export function SmoothScrollProvider() {
   const pathname = usePathname();
@@ -50,6 +52,11 @@ export function SmoothScrollProvider() {
 
     const setup = () => {
       registerGsap();
+      if (window.matchMedia(TOUCH_ONLY).matches) {
+        // Native scrolling; ScrollTrigger listens to it directly.
+        teardown = () => ScrollTrigger.getAll().forEach((t) => t.kill());
+        return;
+      }
       const lenis = new Lenis({
         lerp: 0.1,
         smoothWheel: true,

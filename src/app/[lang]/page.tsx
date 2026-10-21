@@ -6,7 +6,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { PortalPreview } from "@/components/sections/PortalPreview";
 import { StepTimeline } from "@/components/sections/StepTimeline";
 import { TruckBanTimeline } from "@/components/sections/TruckBanTimeline";
-import { SavingsCalculator } from "@/components/tools/SavingsCalculator";
+import { SavingsCalculator } from "@/components/tools/lazy";
 import { Button } from "@/components/ui/Button";
 import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { ArrowIcon } from "@/components/ui/icons";

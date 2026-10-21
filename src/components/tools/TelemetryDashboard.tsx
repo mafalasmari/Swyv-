@@ -191,7 +191,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
             onClick={() => setFilter("overOnly", !filters.overOnly)}
             className={cn(
               "h-11 border px-3 font-mono text-[11px] tracking-wider whitespace-nowrap uppercase transition-colors",
-              filters.overOnly ? "border-red bg-red/15 text-red-bright" : "border-line text-steel hover:text-concrete",
+              filters.overOnly ? "border-red bg-red/15 text-error" : "border-line text-steel hover:text-concrete",
             )}
           >
             {copy.filters.overOnly}
@@ -262,7 +262,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
                       <span className="relative h-1.5 w-24 shrink-0 bg-line" title={`${copy.limit} ${duration(a.sla)}`}>
                         <span className={cn("absolute inset-y-0 start-0", tone)} style={{ width: `${Math.min(100, ratio * 100)}%` }} />
                       </span>
-                      <span className={cn("num text-xs", ratio > 1 && a.status !== "delivered" ? "text-red-bright" : "text-concrete")}>
+                      <span className={cn("num text-xs", ratio > 1 && a.status !== "delivered" ? "text-error" : "text-concrete")}>
                         {duration(a.dwell)}
                       </span>
                       <span className="num text-[11px] text-steel">/ {duration(a.sla)}</span>

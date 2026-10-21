@@ -32,6 +32,7 @@ export default async function IndustriesPage({ params }: PageProps<"/[lang]/indu
           sectors={c.sectors.map((sector) => ({ ...sector, id: sector.code.toLowerCase() }))}
           cta={{ ...c.cta, href: href(locale, routes.contact) }}
           labels={{ deliver: c.headers.deliver, return: c.headers.return }}
+          headingLevel="h2"
         />
         <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted">
           <span className="flex items-center gap-2">

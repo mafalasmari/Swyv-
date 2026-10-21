@@ -25,6 +25,9 @@
   --accent: var(--swyv-red);
   /* Error text: light red on dark surfaces, the darker red ink on light ones. */
   --error: #ff9e9e;
+  /* Small red text: SWYV red is under 4.5:1 on Black and Asphalt, so text uses a
+     lighter tint there and the darker red ink on Concrete. Fills keep SWYV red. */
+  --accent-text: #ff5a5f;
 }
 
 @layer components {
@@ -36,6 +39,7 @@
     --raised: #1a1a1c;
     --accent: var(--swyv-red);
     --error: #ff9e9e;
+    --accent-text: #ff5a5f;
     background: var(--surface);
     color: var(--fg);
   }
@@ -49,6 +53,7 @@
     --raised: #f7f7f6;
     --accent: var(--swyv-red);
     --error: var(--swyv-red-ink);
+    --accent-text: var(--swyv-red-ink);
     background: var(--surface);
     color: var(--fg);
   }
@@ -62,6 +67,7 @@
     --raised: #333336;
     --accent: var(--swyv-red);
     --error: #ff9e9e;
+    --accent-text: #ff5a5f;
     background: var(--surface);
     color: var(--fg);
   }
@@ -189,11 +195,12 @@
   }
 }
 
-/* Red text on light surfaces uses the darker ink so it passes AA; buttons, fills
-   and the chevron (SVG) keep SWYV red. Unlayered so it beats the text-red utility. */
-.section-light .text-red:not(svg),
-.section-light .text-accent:not(svg) {
-  color: var(--swyv-red-ink);
+/* Red text follows --accent-text (lighter tint on dark, red ink on light) so it
+   passes AA; buttons, fills and SVG icons keep SWYV red. Unlayered so it beats the
+   text-red utility. */
+.text-red:not(svg),
+.text-accent:not(svg) {
+  color: var(--accent-text);
 }
 
 /* Letter-spacing breaks Arabic letter joining, so Arabic labels drop the mono face
@@ -247,6 +254,7 @@ html[lang="ar"] .font-mono:not(.num) {
     border-color 0.3s var(--ease-out);
 }
 html[data-theme="light"] .site-header {
+  --accent-text: var(--swyv-red-ink);
   --surface: var(--swyv-concrete);
   --fg: var(--swyv-black);
   --muted: #5c5e63;
@@ -262,7 +270,7 @@ html[data-theme="light"] .site-header {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.625rem;
+  padding: 0.5rem;
   font-size: 0.875rem;
   white-space: nowrap;
   color: var(--muted);
@@ -276,7 +284,7 @@ html[data-theme="light"] .site-header {
 .nav-link::after {
   content: "";
   position: absolute;
-  inset-inline: 0.625rem;
+  inset-inline: 0.5rem;
   bottom: 0.25rem;
   height: 1px;
   background: var(--accent);

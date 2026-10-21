@@ -1,7 +1,7 @@
 import { CtaBand } from "@/components/sections/CtaBand";
 import { PageHero } from "@/components/sections/PageHero";
 import { ExpandableCarousel } from "@/components/sections/ExpandableCarousel";
-import { DispositionEngine } from "@/components/tools/DispositionEngine";
+import { DispositionEngine } from "@/components/tools/lazy";
 import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";

@@ -181,7 +181,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
                 </thead>
                 <tbody>
                   {decision.options.map((o) => (
-                    <tr key={o.route} className={cn("border-b border-line", !o.feasible && "text-steel/70")}>
+                    <tr key={o.route} className={cn("border-b border-line", !o.feasible && "text-muted")}>
                       <td className="py-2.5">
                         <span className="flex items-center gap-2">
                           <span aria-hidden className={cn("size-2.5", ROUTE_META[o.route].swatch, !o.feasible && "opacity-30")} />

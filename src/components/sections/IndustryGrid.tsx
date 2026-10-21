@@ -23,6 +23,8 @@ type IndustryGridProps = {
   cta: { title: string; button: string; href: string };
   /** Screen-reader names for the delivery / returns lines. */
   labels: { deliver: string; return: string };
+  /** h2 when the grid is the page's first content after its h1 (industries page). */
+  headingLevel?: "h2" | "h3";
 };
 
 /** Same pseudo-random value on server and client, so the flicker never causes a hydration mismatch. */
@@ -94,7 +96,7 @@ const track = (e: MouseEvent<HTMLElement>) => {
  * framed by fading hairlines and flickering "+" marks instead of solid borders.
  * A red glow follows the pointer inside the hovered cell.
  */
-export function IndustryGrid({ sectors, cta, labels }: IndustryGridProps) {
+export function IndustryGrid({ sectors, cta, labels, headingLevel: Heading = "h3" }: IndustryGridProps) {
   return (
     <div className="relative">
       {/* Equal rows, so the frame's hairlines (placed by percentage) sit on the cell edges. */}
@@ -106,7 +108,7 @@ export function IndustryGrid({ sectors, cta, labels }: IndustryGridProps) {
                 <IndustryIcon code={sector.code} className="size-14 sm:size-16" />
                 <span className="num text-xs text-accent">{sector.code}</span>
               </div>
-              <h3 className="text-base leading-snug font-semibold sm:text-lg">{sector.name}</h3>
+              <Heading className="text-base leading-snug font-semibold sm:text-lg">{sector.name}</Heading>
               {(sector.deliver || sector.back) && (
                 <dl className="mt-auto grid gap-3 text-sm">
                   {sector.deliver && (

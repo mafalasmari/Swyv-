@@ -89,7 +89,7 @@ export function NavDropdown({
         aria-controls={panelId}
         aria-label={`${showMenuLabel} ${label}`}
         onClick={() => (open ? onClose() : onOpen())}
-        className="-ms-2 grid size-6 place-items-center text-muted transition-colors hover:text-fg"
+        className="grid size-6 place-items-center text-muted transition-colors hover:text-fg"
       >
         <ChevronDownIcon className={cn("size-3.5 transition-transform duration-300", open && "rotate-180")} />
       </button>

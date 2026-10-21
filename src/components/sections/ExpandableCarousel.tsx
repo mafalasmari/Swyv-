@@ -51,10 +51,11 @@ function CardRow({ cards, more }: { cards: CarouselCard[]; more: string }) {
             <div id={`${id}-${i}`} className="card-open">
               <CarouselScene scene={card.scene} className="h-44 w-full shrink-0 sm:h-48" />
               <span className="num self-start text-sm text-accent">{card.number}</span>
-              <h3 className="text-2xl leading-tight font-semibold text-balance">{card.title}</h3>
+              <h2 className="text-2xl leading-tight font-semibold text-balance">{card.title}</h2>
               <p className="max-w-xl leading-relaxed text-pretty text-muted">{card.body}</p>
               <Button href={card.href} size="sm" className="mt-auto self-start">
                 {more}
+                <span className="sr-only">: {card.title}</span>
               </Button>
             </div>
           </li>

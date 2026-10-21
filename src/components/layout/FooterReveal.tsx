@@ -23,15 +23,25 @@ export function FooterReveal({ children }: { children: ReactNode }) {
   useEffect(() => {
     const footer = footerRef.current;
     if (!footer) return;
-    // The trigger is measured against the spacer, so remeasure whenever its height changes.
+    // The trigger is measured against the spacer, so remeasure when its height
+    // changes. Debounced: the first measurement lands during start-up, when the
+    // provider refreshes anyway.
+    let last = -1;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const sync = () => {
-      wrapRef.current?.style.setProperty("--footer-h", `${footer.offsetHeight}px`);
-      refreshScrollTriggers();
+      const h = footer.offsetHeight;
+      if (h === last) return;
+      last = h;
+      wrapRef.current?.style.setProperty("--footer-h", `${h}px`);
+      clearTimeout(timer);
+      timer = setTimeout(refreshScrollTriggers, 300);
     };
     const ro = new ResizeObserver(sync);
     ro.observe(footer);
-    sync();
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   useGsap(wrapRef, ({ gsap }) => {

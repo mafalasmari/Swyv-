@@ -1,7 +1,7 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { PortalPreview } from "@/components/sections/PortalPreview";
-import { DecisionSimulator } from "@/components/tools/DecisionSimulator";
-import { TelemetryDashboard } from "@/components/tools/TelemetryDashboard";
+import { DecisionSimulator } from "@/components/tools/lazy";
+import { TelemetryDashboard } from "@/components/tools/lazy";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";

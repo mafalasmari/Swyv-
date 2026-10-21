@@ -6,7 +6,7 @@ export type Tone = "ok" | "warn" | "bad" | "info" | "idle" | "live";
 const tones: Record<Tone, string> = {
   ok: "text-delivered border-delivered/40 bg-delivered/10",
   warn: "text-pending border-pending/40 bg-pending/10",
-  bad: "text-red-bright border-red/50 bg-red/10",
+  bad: "text-error border-red/50 bg-red/10",
   info: "text-route-restock border-route-restock/40 bg-route-restock/10",
   idle: "text-muted border-rule bg-fg/5",
   live: "text-delivered border-delivered/40 bg-delivered/10",
