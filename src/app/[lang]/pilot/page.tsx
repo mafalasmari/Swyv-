@@ -2,6 +2,7 @@ import { CheckList } from "@/components/sections/CheckList";
 import { PageHero } from "@/components/sections/PageHero";
 import { SchemaForm } from "@/components/forms/SchemaForm";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { pilot } from "@/content/pilot";
@@ -23,16 +24,17 @@ export default async function PilotPage({ params }: PageProps<"/[lang]/pilot">) 
     <>
       <PageHero eyebrow={c.intro.eyebrow} title={c.intro.title} description={c.intro.description} />
 
-      <Section>
+      <NotchSeparator from="dark" to="light" />
+      <Section tone="light">
         <SectionHeader index="01" eyebrow={c.timelineTitle} title={c.timelineTitle} className="mb-12" />
-        <ol className="grid border-t border-s border-line md:grid-cols-3">
+        <ol className="grid border-t border-s border-rule md:grid-cols-3">
           {c.timeline.map((week) => (
-            <li key={week.week} className="flex flex-col gap-3 border-e border-b border-line p-6 sm:p-8">
-              <span className="font-mono text-xs tracking-[0.16em] text-steel uppercase">
+            <li key={week.week} className="flex flex-col gap-3 border-e border-b border-rule p-6 sm:p-8">
+              <span className="font-mono text-xs tracking-[0.16em] text-muted uppercase">
                 {c.weekLabel} <span className="num text-2xl text-red">{week.week}</span>
               </span>
               <h3 className="text-xl font-semibold">{week.title}</h3>
-              <p className="leading-relaxed text-steel">{week.body}</p>
+              <p className="leading-relaxed text-muted">{week.body}</p>
             </li>
           ))}
         </ol>
@@ -48,9 +50,11 @@ export default async function PilotPage({ params }: PageProps<"/[lang]/pilot">) 
         </div>
       </Section>
 
-      <Section id="request" className="scroll-mt-16">
+      <NotchSeparator from="light" to="dark" />
+      {/* Forms stay dark; on this page the form itself is the call to action. */}
+      <Section tone="dark" id="request" className="scroll-mt-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_2fr]">
-          <SectionHeader index="04" eyebrow={c.formTitle} title={c.formTitle} />
+          <SectionHeader index="04" eyebrow={c.formTitle} title={c.formTitle} className="self-start lg:sticky lg:top-24" />
           <SchemaForm formId="pilot" locale={locale} privacyHref={href(locale, routes.privacy)} />
         </div>
       </Section>
