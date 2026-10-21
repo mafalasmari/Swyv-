@@ -60,7 +60,7 @@ export const howItWorks = {
       dir: "up",
     },
   ],
-  codesTitle: t("رموز الحالة", "Condition codes"),
+  codesTitle: t("دليل الحالات", "Status guide"),
   codeHeaders: { condition: t("الحالة", "Condition") },
   engine: {
     eyebrow: t("محرك التوجيه", "Disposition engine"),

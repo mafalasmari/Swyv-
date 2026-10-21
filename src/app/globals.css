@@ -442,7 +442,7 @@ html[data-theme="light"] .site-header {
 }
 /* Collapsed cards show only a number and a title: an even scrim keeps both clear. */
 .carousel-card:not([data-expanded])::after {
-  background: color-mix(in srgb, var(--swyv-black) 70%, transparent);
+  background: color-mix(in srgb, var(--swyv-black) 55%, transparent);
 }
 .card-collapsed {
   position: absolute;
