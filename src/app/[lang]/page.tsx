@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { CardGrid } from "@/components/sections/CardGrid";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { IndustryGrid } from "@/components/sections/IndustryGrid";
 import { OpsBoard } from "@/components/sections/OpsBoard";
 import { PageHero } from "@/components/sections/PageHero";
 import { PortalPreview } from "@/components/sections/PortalPreview";
@@ -30,7 +30,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const c = localize(home, locale);
   const s = localize(site, locale);
   const svc = localize(services.available, locale);
-  const sectors = localize(industries.sectors, locale);
+  const ind = localize(industries, locale);
+  const sectors = ind.sectors;
   const to = (path: string) => href(locale, path);
 
   return (
@@ -110,19 +111,15 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <NotchSeparator from="light" to="dark" />
       <Section tone="dark">
         <SectionHeader index="04" eyebrow={c.sectors.eyebrow} title={c.sectors.title} className="mb-12" />
-        <ul className="grid grid-cols-2 border-t border-s border-rule sm:grid-cols-3 lg:grid-cols-7">
-          {sectors.map((sector) => (
-            <li key={sector.code} className="border-e border-b border-rule">
-              <Link
-                href={`${to(routes.industries)}#${sector.code.toLowerCase()}`}
-                className="flex h-full flex-col gap-6 p-5 transition-colors hover:bg-raised"
-              >
-                <span className="num text-xs text-red">{sector.code}</span>
-                <span className="text-sm leading-snug">{sector.name}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <IndustryGrid
+          sectors={sectors.map((sector) => ({
+            code: sector.code,
+            name: sector.name,
+            href: `${to(routes.industries)}#${sector.code.toLowerCase()}`,
+          }))}
+          cta={{ ...ind.cta, href: to(routes.contact) }}
+          labels={{ deliver: ind.headers.deliver, return: ind.headers.return }}
+        />
       </Section>
 
       <NotchSeparator from="dark" to="light" />

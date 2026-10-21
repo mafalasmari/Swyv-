@@ -1,11 +1,12 @@
 import { CtaBand } from "@/components/sections/CtaBand";
 import { PageHero } from "@/components/sections/PageHero";
-import { StepTimeline } from "@/components/sections/StepTimeline";
+import { ExpandableCarousel } from "@/components/sections/ExpandableCarousel";
 import { DispositionEngine } from "@/components/tools/DispositionEngine";
 import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StatusTag } from "@/components/ui/StatusTag";
+import { carousel } from "@/content/carousel";
 import { howItWorks } from "@/content/howItWorks";
 import { routes, site } from "@/content/site";
 import { href } from "@/i18n/config";
@@ -22,6 +23,17 @@ export default async function HowItWorksPage({ params }: PageProps<"/[lang]/how-
   const locale = await getLocale(params);
   const c = localize(howItWorks, locale);
   const s = localize(site.pilotCta, locale);
+  const k = localize(carousel, locale);
+  const tabs = k.tabs.map((tab) => ({
+    label: tab.label,
+    cards: tab.steps.map((i) => ({
+      number: String(i + 1).padStart(2, "0"),
+      title: c.steps[i].title,
+      body: c.steps[i].body,
+      href: href(locale, routes[k.cards[i].route]) + k.cards[i].hash,
+      scene: k.cards[i].scene,
+    })),
+  }));
 
   const codes = (
     <table className="mt-2 w-full text-sm">
@@ -51,10 +63,9 @@ export default async function HowItWorksPage({ params }: PageProps<"/[lang]/how-
 
       <NotchSeparator from="dark" to="light" />
       <Section tone="light">
-        <StepTimeline
-          columns
-          steps={c.steps.map((step) => ({ ...step, extra: "codes" in step && step.codes ? codes : undefined }))}
-        />
+        <ExpandableCarousel tabs={tabs} more={k.more} />
+        {/* The condition codes the inspection step (04) records. */}
+        <div className="mt-12 max-w-sm">{codes}</div>
       </Section>
 
       <NotchSeparator from="light" to="dark" />

@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { CtaBand } from "@/components/sections/CtaBand";
+import { IndustryGrid } from "@/components/sections/IndustryGrid";
 import { PageHero } from "@/components/sections/PageHero";
-import { ArrowIcon, Chevron } from "@/components/ui/icons";
+import { Chevron } from "@/components/ui/icons";
 import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -28,46 +28,11 @@ export default async function IndustriesPage({ params }: PageProps<"/[lang]/indu
       <NotchSeparator from="dark" to="light" />
       <Section tone="light">
         {/* 4 × 2 grid: seven sectors plus a "not listed" card */}
-        <ul className="grid border-t border-s border-rule sm:grid-cols-2 lg:grid-cols-4">
-          {c.sectors.map((sector) => (
-            <li
-              key={sector.code}
-              id={sector.code.toLowerCase()}
-              className="flex scroll-mt-24 flex-col gap-5 border-e border-b border-rule p-6 transition-colors hover:bg-raised"
-            >
-              <span className="num text-xs text-red">{sector.code}</span>
-              <h2 className="text-lg leading-snug font-semibold">{sector.name}</h2>
-              <dl className="mt-auto grid gap-3 text-sm">
-                <div className="flex gap-2.5">
-                  <dt className="mt-1.5 shrink-0">
-                    <Chevron direction="down" className="size-2 text-red" />
-                    <span className="sr-only">{c.headers.deliver}</span>
-                  </dt>
-                  <dd className="text-muted">{sector.deliver}</dd>
-                </div>
-                <div className="flex gap-2.5">
-                  <dt className="mt-1.5 shrink-0">
-                    <Chevron direction="up" className="size-2 text-pending" />
-                    <span className="sr-only">{c.headers.return}</span>
-                  </dt>
-                  <dd className="text-muted">{sector.back}</dd>
-                </div>
-              </dl>
-            </li>
-          ))}
-          <li className="border-e border-b border-rule">
-            <Link
-              href={href(locale, routes.contact)}
-              className="group flex h-full flex-col justify-between gap-6 p-6 transition-colors hover:bg-raised"
-            >
-              <span className="text-lg leading-snug font-semibold">{c.cta.title}</span>
-              <span className="flex items-center gap-2 text-sm text-red">
-                {c.cta.button}
-                <ArrowIcon className="size-4 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
-              </span>
-            </Link>
-          </li>
-        </ul>
+        <IndustryGrid
+          sectors={c.sectors.map((sector) => ({ ...sector, id: sector.code.toLowerCase() }))}
+          cta={{ ...c.cta, href: href(locale, routes.contact) }}
+          labels={{ deliver: c.headers.deliver, return: c.headers.return }}
+        />
         <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted">
           <span className="flex items-center gap-2">
             <Chevron direction="down" className="size-2 text-red" /> {c.headers.deliver}

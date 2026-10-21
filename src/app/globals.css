@@ -324,6 +324,193 @@ html[data-theme="light"] .site-header {
   transition: clip-path 0.25s var(--ease-reveal);
 }
 
+/* IndustryGrid: hairline segments that fade at both ends, "+" marks at the
+   corners that flicker on their own random 2–5s rhythm, and a red glow that
+   follows the pointer (--mx / --my) inside the hovered cell. */
+.ig-line {
+  position: absolute;
+}
+.ig-line-v {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--swyv-steel) 50%, transparent);
+}
+.ig-line-h {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--swyv-steel) 50%, transparent);
+}
+.ig-cross {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  margin-block-start: -5px;
+  margin-inline-start: -5px;
+  opacity: 0.6;
+  animation-name: ig-flicker;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.ig-cross::before,
+.ig-cross::after {
+  content: "";
+  position: absolute;
+  background: var(--swyv-steel);
+}
+.ig-cross::before {
+  width: 11px;
+  height: 1px;
+  top: 5px;
+  left: 0;
+}
+.ig-cross::after {
+  width: 1px;
+  height: 11px;
+  top: 0;
+  left: 5px;
+}
+@keyframes ig-flicker {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.ig-cell {
+  position: relative;
+  isolation: isolate;
+}
+.ig-cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--swyv-red) 15%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out);
+}
+.ig-cell:hover::before {
+  opacity: 1;
+}
+
+/* ExpandableCarousel: three cards per row, the open one 60% wide, the others 20%.
+   The blurred drawing and the open card's content are sized to the open width
+   (container units), so nothing reflows while the widths animate. */
+.carousel-list {
+  display: flex;
+  gap: 1rem;
+  container-type: inline-size;
+}
+.carousel-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc((100% - 2rem) * 0.2);
+  height: 34rem;
+  overflow: hidden;
+  transition: width 0.6s var(--ease-reveal);
+}
+.carousel-card[data-expanded] {
+  width: calc((100% - 2rem) * 0.6);
+}
+.card-bg {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: calc((100cqw - 2rem) * 0.6);
+  filter: blur(30px);
+  transform: scale(1.1);
+  opacity: 0.6;
+  pointer-events: none;
+}
+/* Scrim between the blurred drawing and the text, so light scenes (the white
+   inspection form) never wash out the copy. */
+.carousel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    transparent 25%,
+    color-mix(in srgb, var(--swyv-black) 85%, transparent) 60%
+  );
+  pointer-events: none;
+}
+.card-collapsed {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  text-align: start;
+  cursor: pointer;
+}
+.carousel-card[data-expanded] .card-collapsed {
+  display: none;
+}
+.card-open {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: calc((100cqw - 2rem) * 0.6);
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s var(--ease-fade),
+    visibility 0s linear 0.2s;
+}
+.carousel-card[data-expanded] .card-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s var(--ease-fade) 0.25s;
+}
+/* Below 768px: a swipeable strip of full cards, no expanding. */
+@media (width < 48rem) {
+  .carousel-list {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    scroll-padding-inline: 1rem;
+  }
+  .carousel-card,
+  .carousel-card[data-expanded] {
+    width: 85%;
+    height: auto;
+    scroll-snap-align: start;
+    transition: none;
+  }
+  .card-bg {
+    width: 100%;
+  }
+  .card-collapsed,
+  .carousel-card[data-expanded] .card-collapsed {
+    display: none;
+  }
+  .card-open,
+  .carousel-card[data-expanded] .card-open {
+    position: relative;
+    width: auto;
+    min-height: 30rem;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+  }
+}
+
 /* ScrollHero: each letter is clipped by its wrapper while it rises. The padding gives
    descenders room; the negative margin keeps the line box unchanged. */
 .sh-char-wrapper {
