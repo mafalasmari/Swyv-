@@ -142,8 +142,9 @@ export function ScrollHero({
         className,
       )}
     >
-      {/* pt-16 keeps the content clear of the 64px sticky header. */}
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden pt-16">
+      {/* The stage sits under the sticky header (64px + 1px border), so it is fully
+          on screen both at load and while pinned. */}
+      <div className="sticky top-[65px] flex h-[calc(100svh-65px)] items-center overflow-hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 text-muted"

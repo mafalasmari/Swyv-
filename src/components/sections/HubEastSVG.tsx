@@ -85,24 +85,100 @@ export function HubEastSVG({ className }: { className?: string }) {
         </g>
       </g>
 
-      {/* Moving truck (red) on the near lane, in front of the hub */}
+      {/* Moving truck on the near lane, in front of the hub: flat line-art in a
+          160×80 box (cab facing the direction of travel). */}
       <g ref={truckRef}>
-        <rect x="200" y="414" width="110" height="48" fill="var(--swyv-red)" />
-        <path d="M310 428H336L346 442V462H310Z" fill="var(--swyv-red)" />
-        <circle
-          cx="224"
-          cy="466"
-          r="8"
-          fill="var(--surface)"
-          stroke="currentColor"
-        />
-        <circle
-          cx="330"
-          cy="466"
-          r="8"
-          fill="var(--surface)"
-          stroke="currentColor"
-        />
+        <g transform="translate(190 396)">
+          {/* Trailer with chamfered ends and panel lines */}
+          <path
+            d="M6 8H104L108 12V58L104 62H6L2 58V12Z"
+            fill="var(--swyv-asphalt)"
+            stroke="var(--swyv-steel)"
+            strokeOpacity="0.5"
+            strokeWidth="1"
+          />
+          <path
+            d="M8 22H102M8 36H102M8 50H102"
+            stroke="var(--swyv-steel)"
+            strokeOpacity="0.35"
+            strokeWidth="1"
+          />
+          <rect x="6" y="62" width="102" height="3" fill="var(--swyv-black)" />
+          <path d="M108 63H114" stroke="var(--swyv-steel)" strokeWidth="2" />
+
+          {/* Cab: body, windshield, side window, door, bumper and two lamps */}
+          <path
+            d="M114 66V28Q114 22 120 22H138L152 40Q156 42 156 46V66Z"
+            fill="var(--swyv-red)"
+          />
+          <path
+            d="M137 27H139L149 40H137Z"
+            fill="var(--swyv-steel)"
+            fillOpacity="0.6"
+          />
+          <rect
+            x="120"
+            y="28"
+            width="12"
+            height="12"
+            fill="var(--swyv-steel)"
+            fillOpacity="0.6"
+          />
+          <path
+            d="M134 44V62"
+            stroke="var(--swyv-black)"
+            strokeOpacity="0.4"
+            strokeWidth="1"
+          />
+          <rect x="112" y="64" width="44" height="3" fill="var(--swyv-black)" />
+          <rect x="150" y="60" width="8" height="6" fill="var(--swyv-steel)" />
+          <rect
+            x="153"
+            y="47"
+            width="3"
+            height="4"
+            fill="var(--swyv-concrete)"
+          />
+          <rect
+            x="153"
+            y="54"
+            width="3"
+            height="3"
+            fill="var(--swyv-pending)"
+          />
+
+          {/* Wheels: tyre and hub; trailer tandem, then the cab's drive and front axle */}
+          <g
+            fill="var(--swyv-black)"
+            stroke="var(--swyv-steel)"
+            strokeWidth="1"
+          >
+            <circle cx="22" cy="69" r="9" />
+            <circle cx="42" cy="69" r="9" />
+            <circle cx="122" cy="69" r="9" />
+            <circle cx="146" cy="69" r="9" />
+          </g>
+          <g fill="var(--swyv-steel)">
+            <circle cx="22" cy="69" r="3.5" />
+            <circle cx="42" cy="69" r="3.5" />
+            <circle cx="122" cy="69" r="3.5" />
+            <circle cx="146" cy="69" r="3.5" />
+          </g>
+
+          {/* Shadow: two thin lines, no filters */}
+          <path
+            d="M8 79H154"
+            stroke="var(--swyv-steel)"
+            strokeOpacity="0.35"
+            strokeWidth="1"
+          />
+          <path
+            d="M24 80H138"
+            stroke="var(--swyv-steel)"
+            strokeOpacity="0.2"
+            strokeWidth="1"
+          />
+        </g>
       </g>
     </svg>
   );
