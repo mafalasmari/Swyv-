@@ -72,7 +72,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
                 onChange={(e) => set("code", e.target.value as ReturnItem["code"])}
                 options={CONDITION_CODES.map((code) => ({
                   value: code,
-                  label: `${CONDITIONS[code].letter} · ${l(CONDITIONS[code].label)}`,
+                  label: l(CONDITIONS[code].label),
                 }))}
               />
             </FieldLabel>
@@ -138,7 +138,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <PanelTitle>{copy.recommended}</PanelTitle>
             <StatusTag tone={CONDITIONS[item.code].tone}>
-              {CONDITIONS[item.code].letter} · {l(CONDITIONS[item.code].label)}
+              {l(CONDITIONS[item.code].label)}
             </StatusTag>
           </div>
 
@@ -239,7 +239,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
                     <td className="py-2.5">{l(line.sku)}</td>
                     <td className="py-2.5">
                       <StatusTag tone={CONDITIONS[line.code].tone}>
-                        {CONDITIONS[line.code].letter} · {l(CONDITIONS[line.code].label)}
+                        {l(CONDITIONS[line.code].label)}
                       </StatusTag>
                     </td>
                     <td className="num py-2.5 text-end">{line.qty}</td>

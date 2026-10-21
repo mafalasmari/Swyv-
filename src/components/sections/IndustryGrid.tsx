@@ -138,7 +138,7 @@ export function IndustryGrid({ sectors, cta, labels }: IndustryGridProps) {
               id={sector.id}
               onMouseMove={track}
               style={revealItem(i).style}
-              className={cn(revealItem(i).className, "ig-cell scroll-mt-24")}
+              className={cn(revealItem(i).className, "ig-cell")}
             >
               {sector.href ? (
                 <Link href={sector.href} className={cell}>

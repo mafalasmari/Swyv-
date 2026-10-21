@@ -23,7 +23,7 @@ export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns
           style={revealItem(i).style}
           className={cn(
             revealItem(i).className,
-            "group flex scroll-mt-24 flex-col gap-3 border-e border-b border-rule p-6 transition-colors hover:bg-raised sm:p-7",
+            "group flex flex-col gap-3 border-e border-b border-rule p-6 transition-colors hover:bg-raised sm:p-7",
             muted && "text-fg/80",
           )}
         >

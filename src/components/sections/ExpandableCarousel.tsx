@@ -15,6 +15,8 @@ type CarouselTab = { label: string; cards: CarouselCard[] };
  * only then is it marked data-lenis-prevent so Lenis leaves the sideways scroll alone.
  */
 function CardRow({ cards, more }: { cards: CarouselCard[]; more: string }) {
+  // Each tab keeps its own open card: Tabs only hides inactive panels, so switching
+  // away and back shows the card that was open (the first one until another is picked).
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
   const id = useId();

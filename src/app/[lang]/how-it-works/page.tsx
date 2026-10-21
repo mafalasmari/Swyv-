@@ -40,15 +40,14 @@ export default async function HowItWorksPage({ params }: PageProps<"/[lang]/how-
       <caption className="mb-2 text-start font-mono text-[11px] tracking-wider text-muted uppercase">{c.codesTitle}</caption>
       <thead className="sr-only">
         <tr>
-          <th>{c.codeHeaders.code}</th>
           <th>{c.codeHeaders.condition}</th>
         </tr>
       </thead>
       <tbody>
         {CONDITION_CODES.map((code) => (
           <tr key={code} className="border-t border-rule">
-            <td className="w-10 py-2 font-arabic text-lg font-semibold text-fg">{CONDITIONS[code].letter}</td>
-            <td className="py-2">
+            {/* py-2.5 keeps the 44px rows the removed letter column used to set. */}
+            <td className="py-2.5">
               <StatusTag tone={CONDITIONS[code].tone}>{CONDITIONS[code].label[locale]}</StatusTag>
             </td>
           </tr>

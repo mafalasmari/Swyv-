@@ -6,13 +6,14 @@ export type ConditionCode = "ok" | "near" | "expired" | "damaged" | "repack" | "
 
 export const CONDITION_CODES: ConditionCode[] = ["ok", "near", "expired", "damaged", "repack", "dead"];
 
-export const CONDITIONS: Record<ConditionCode, { letter: string; label: Tx; tone: Tone }> = {
-  ok: { letter: "ص", label: t("صالح", "Sellable"), tone: "ok" },
-  near: { letter: "ق", label: t("قريب الانتهاء", "Near expiry"), tone: "warn" },
-  expired: { letter: "م", label: t("منتهي", "Expired"), tone: "bad" },
-  damaged: { letter: "ت", label: t("تالف", "Damaged"), tone: "bad" },
-  repack: { letter: "د", label: t("يحتاج تدوير", "Needs repack"), tone: "info" },
-  dead: { letter: "ر", label: t("راكد", "Dead stock"), tone: "idle" },
+/** Each condition is shown by its name and status colour; the form's single-letter codes are not displayed. */
+export const CONDITIONS: Record<ConditionCode, { label: Tx; tone: Tone }> = {
+  ok: { label: t("صالح", "Sellable"), tone: "ok" },
+  near: { label: t("قريب الانتهاء", "Near expiry"), tone: "warn" },
+  expired: { label: t("منتهي", "Expired"), tone: "bad" },
+  damaged: { label: t("تالف", "Damaged"), tone: "bad" },
+  repack: { label: t("يحتاج تدوير", "Needs repack"), tone: "info" },
+  dead: { label: t("راكد", "Dead stock"), tone: "idle" },
 };
 
 /** Where a return can be sent after inspection. */

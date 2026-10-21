@@ -61,7 +61,7 @@ export const howItWorks = {
     },
   ],
   codesTitle: t("رموز الحالة", "Condition codes"),
-  codeHeaders: { code: t("الرمز", "Code"), condition: t("الحالة", "Condition") },
+  codeHeaders: { condition: t("الحالة", "Condition") },
   engine: {
     eyebrow: t("محرك التوجيه", "Disposition engine"),
     title: t("أين يذهب كل مرتجع؟", "Where should each return go?"),

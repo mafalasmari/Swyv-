@@ -440,6 +440,10 @@ html[data-theme="light"] .site-header {
   );
   pointer-events: none;
 }
+/* Collapsed cards show only a number and a title: an even scrim keeps both clear. */
+.carousel-card:not([data-expanded])::after {
+  background: color-mix(in srgb, var(--swyv-black) 70%, transparent);
+}
 .card-collapsed {
   position: absolute;
   inset: 0;
@@ -548,11 +552,21 @@ html[data-theme="light"] .site-header {
 /* Reveal / RevealGroup: rise 60px and fade in when scrolled into view. Hidden only
    when scripts run and motion is allowed, so content never depends on JavaScript.
    Colour transitions are listed too, so hover effects on revealed cards keep easing. */
+/* Grid items double as anchor targets (/services#reports): 6rem clears the sticky
+   header. While an item still waits 60px low, the browser would scroll to that
+   lowered box and the item would then rise under the header, so hidden items add
+   the 60px to their margin. */
+.reveal-item {
+  scroll-margin-top: 6rem;
+}
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   .reveal,
   [data-reveal-group] .reveal-item {
     opacity: 0;
     transform: translate3d(0, 60px, 0);
+  }
+  [data-reveal-group]:not(.is-revealed) .reveal-item {
+    scroll-margin-top: calc(6rem + 60px);
   }
   .reveal {
     transition:
