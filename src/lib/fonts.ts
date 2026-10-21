@@ -1,9 +1,9 @@
-import { IBM_Plex_Mono, IBM_Plex_Sans_Arabic, Poppins } from "next/font/google";
+import { Geist_Mono, IBM_Plex_Sans_Arabic, Poppins } from "next/font/google";
 
 export const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -14,11 +14,12 @@ export const plexArabic = IBM_Plex_Sans_Arabic({
   display: "swap",
 });
 
-export const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
+/** Technical labels, small buttons and Latin numerals only — never Arabic text. */
+export const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
 });
 
-export const fontVariables = `${poppins.variable} ${plexArabic.variable} ${plexMono.variable}`;
+export const fontVariables = `${poppins.variable} ${plexArabic.variable} ${geistMono.variable}`;

@@ -5,23 +5,102 @@
  * Brand sheet v0.1: Red #D7141A · Night Black #121212 · Asphalt #2A2A2C ·
  * Concrete #EDEDED · Steel #8A8D91 · Delivered #1FA463 · Pending #F2A900.
  */
+:root {
+  --swyv-red: #d7141a;
+  --swyv-black: #121212;
+  --swyv-asphalt: #2a2a2c;
+  --swyv-concrete: #ededed;
+  --swyv-steel: #8a8d91;
+  --swyv-success: #1fa463;
+  --swyv-pending: #f2a900;
+
+  /* Section-scoped semantic tokens. Defaults = dark; overridden by .section-* below. */
+  --surface: var(--swyv-black);
+  --fg: var(--swyv-concrete);
+  --muted: var(--swyv-steel);
+  --rule: #2f2f32;
+  --accent: var(--swyv-red);
+}
+
+@layer components {
+  .section-dark {
+    --surface: var(--swyv-black);
+    --fg: var(--swyv-concrete);
+    --muted: var(--swyv-steel);
+    --rule: #2f2f32;
+    --accent: var(--swyv-red);
+    background: var(--surface);
+    color: var(--fg);
+  }
+
+  .section-light {
+    --surface: var(--swyv-concrete);
+    --fg: var(--swyv-black);
+    /* Steel on Concrete is ~2.9:1, too faint for body text; this keeps muted copy at 4.5:1+. */
+    --muted: #5c5e63;
+    --rule: rgb(18 18 18 / 0.14);
+    --accent: var(--swyv-red);
+    background: var(--surface);
+    color: var(--fg);
+  }
+
+  .section-muted {
+    --surface: var(--swyv-asphalt);
+    --fg: var(--swyv-concrete);
+    --muted: var(--swyv-steel);
+    --rule: rgb(237 237 237 / 0.12);
+    --accent: var(--swyv-red);
+    background: var(--surface);
+    color: var(--fg);
+  }
+}
+
+/* Utilities that follow the brand and section variables (bg-swyv-red, text-fg, border-rule…). */
+@theme inline {
+  --color-swyv-red: var(--swyv-red);
+  --color-swyv-black: var(--swyv-black);
+  --color-swyv-asphalt: var(--swyv-asphalt);
+  --color-swyv-concrete: var(--swyv-concrete);
+  --color-swyv-steel: var(--swyv-steel);
+  --color-swyv-success: var(--swyv-success);
+  --color-swyv-pending: var(--swyv-pending);
+
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+
+  /* Legacy names kept as aliases until components move to the semantic tokens (phase 3). */
+  --color-red: var(--swyv-red);
+  --color-night: var(--swyv-black);
+  --color-asphalt: var(--swyv-asphalt);
+  --color-concrete: var(--swyv-concrete);
+  --color-steel: var(--swyv-steel);
+  --color-delivered: var(--swyv-success);
+  --color-pending: var(--swyv-pending);
+}
+
+/* Motion curves. `static` always emits them as --ease-* variables, and they also
+   power the ease-out / ease-reveal / ease-hover / ease-fade utilities. */
+@theme static {
+  --ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --ease-reveal: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-hover: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-fade: cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
 @theme {
   --font-sans: var(--font-poppins), var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
   --font-arabic: var(--font-plex-arabic), var(--font-poppins), sans-serif;
   --font-brand: var(--font-poppins), var(--font-plex-arabic), sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  --color-red: #d7141a;
+  /* Legacy shades outside the brand sheet, kept as aliases until phase 3. */
   --color-red-bright: #f0323a;
-  --color-night: #121212;
   --color-ink: #0b0b0c;
-  --color-asphalt: #2a2a2c;
   --color-panel: #1a1a1c;
   --color-line: #2f2f32;
-  --color-concrete: #ededed;
-  --color-steel: #8a8d91;
-  --color-delivered: #1fa463;
-  --color-pending: #f2a900;
 
   /* Disposition routes — validated categorical set for the dark panel surface */
   --color-route-restock: #4c8df6;
@@ -74,11 +153,8 @@
     @apply font-arabic;
   }
 
-  /* Letter-spacing breaks Arabic letter joining, so Arabic labels drop the mono
-     face and tracking; numbers (.num) keep the mono face in both languages. */
-  html[lang="ar"] .font-mono:not(.num) {
-    font-family: var(--font-arabic);
-    letter-spacing: 0;
+  html[lang="en"] body {
+    font-family: var(--font-poppins), sans-serif;
   }
 
   ::selection {
@@ -96,6 +172,14 @@
   input[type="number"]::-webkit-inner-spin-button {
     opacity: 0.4;
   }
+}
+
+/* Letter-spacing breaks Arabic letter joining, so Arabic labels drop the mono face
+   and tracking; numbers (.num) keep the mono face in both languages. Unlayered on
+   purpose so it beats tracking-* utilities. */
+html[lang="ar"] .font-mono:not(.num) {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
 }
 
 @utility num {
