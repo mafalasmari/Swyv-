@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
+import { replayIntro } from "./IntroLoader";
 import type { NavChild } from "@/lib/navMenus";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileDrawer } from "./MobileDrawer";
@@ -110,7 +111,7 @@ export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy 
     <>
       <header ref={headerRef} className="site-header sticky top-0 z-50 border-b border-rule">
         <Container className="flex h-14 items-center gap-4 sm:gap-6 xl:h-16">
-          <Link href={copy.homeHref} aria-label="SWYV" className="flex shrink-0 items-center">
+          <Link href={copy.homeHref} aria-label="SWYV" onClick={replayIntro} className="flex shrink-0 items-center">
             <Logo className="w-[104px] xl:w-[140px]" />
           </Link>
 

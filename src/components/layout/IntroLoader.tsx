@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { GLYPHS, TRACKING } from "@/lib/wordmark";
 import { InlineScript } from "./InlineScript";
 
-const STORAGE_KEY = "swyv-intro-seen-v1";
+/** Event that replays the intro (the header logo dispatches it). */
+const REPLAY_EVENT = "swyv:intro";
 /** Total length of the sequence; must match the CSS timeline in globals.css. */
 const TOTAL_MS = 2060;
 
@@ -17,23 +18,47 @@ const BOX_HEIGHT = 1249;
 
 /**
  * Decides play/skip before first paint and owns the timeline even before hydration.
- * Reduced motion skips without writing the session key, so turning it off later shows the intro.
+ * Plays on every page load; only reduced motion skips it.
  */
-const BOOT = `(function(){var el=document.getElementById("swyv-intro");if(!el)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches){el.setAttribute("data-intro","skip");return}var seen;try{seen=sessionStorage.getItem("${STORAGE_KEY}");sessionStorage.setItem("${STORAGE_KEY}","1")}catch(e){seen="1"}if(seen){el.setAttribute("data-intro","skip");return}el.setAttribute("data-intro","play");el.setAttribute("data-start",String(performance.now()));document.body.style.overflow="hidden";setTimeout(function(){if(el.getAttribute("data-intro")==="play"){el.setAttribute("data-intro","done");document.body.style.overflow=""}},${TOTAL_MS})})();`;
+const BOOT = `(function(){var el=document.getElementById("swyv-intro");if(!el)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches){el.setAttribute("data-intro","skip");return}el.setAttribute("data-intro","play");el.setAttribute("data-start",String(performance.now()));document.body.style.overflow="hidden";setTimeout(function(){if(el.getAttribute("data-intro")==="play"){el.setAttribute("data-intro","done");document.body.style.overflow=""}},${TOTAL_MS})})();`;
+
+/** Plays the intro again (no-op with reduced motion). */
+export function replayIntro() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  window.dispatchEvent(new Event(REPLAY_EVENT));
+}
 
 /**
  * Opening sequence: the chevron draws, "Swyv" rises letter by letter, breathes,
  * then the screen splits in two along the middle of the logo.
- * Shown once per session; skipped on any click, Escape or Space, and never shown
- * with prefers-reduced-motion. The page underneath is fully loaded and never waits.
+ * Shown on every page load and again on each click of the header logo; skipped on
+ * any click, Escape or Space, and never shown with prefers-reduced-motion. The page
+ * underneath is fully loaded and never waits.
  */
 export function IntroLoader() {
   const ref = useRef<HTMLDivElement>(null);
   const [removed, setRemoved] = useState(false);
+  // Bumped by replayIntro(); each value mounts a fresh intro that plays at once.
+  const [run, setRun] = useState(0);
+
+  useEffect(() => {
+    const replay = () => {
+      setRemoved(false);
+      setRun((n) => n + 1);
+    };
+    window.addEventListener(REPLAY_EVENT, replay);
+    return () => window.removeEventListener(REPLAY_EVENT, replay);
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (run > 0) {
+      // Replays start here; the first run was started by BOOT before paint.
+      el.setAttribute("data-intro", "play");
+      el.setAttribute("data-start", String(performance.now()));
+      document.body.style.overflow = "hidden";
+    }
 
     const finish = () => {
       el.setAttribute("data-intro", "done");
@@ -64,13 +89,14 @@ export function IntroLoader() {
       window.removeEventListener("pointerdown", finish);
       window.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [run]);
 
   if (removed) return null;
 
   return (
     <>
       <div
+        key={run}
         ref={ref}
         id="swyv-intro"
         className="intro"
@@ -91,7 +117,7 @@ export function IntroLoader() {
           </div>
         </div>
       </div>
-      <InlineScript html={BOOT} />
+      {run === 0 && <InlineScript html={BOOT} />}
     </>
   );
 }
