@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { FooterReveal } from "@/components/layout/FooterReveal";
 import { IntroLoader } from "@/components/layout/IntroLoader";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -66,20 +67,22 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <main id="main" className="flex-1">
           {children}
         </main>
-        <SiteFooter
-          copy={{
-            about: s.footer.about,
-            servicesTitle: s.footer.servicesTitle,
-            services: s.footer.services.map((item) => ({ href: link(item.route, item.hash), label: item.label })),
-            companyTitle: s.footer.companyTitle,
-            company: s.footer.company.map((item) => ({ href: link(item.route), label: item.label })),
-            copyright: s.footer.copyright,
-            legal: [
-              { href: link("privacy"), label: s.footer.privacy },
-              { href: link("terms"), label: s.footer.terms },
-            ],
-          }}
-        />
+        <FooterReveal>
+          <SiteFooter
+            copy={{
+              about: s.footer.about,
+              servicesTitle: s.footer.servicesTitle,
+              services: s.footer.services.map((item) => ({ href: link(item.route, item.hash), label: item.label })),
+              companyTitle: s.footer.companyTitle,
+              company: s.footer.company.map((item) => ({ href: link(item.route), label: item.label })),
+              copyright: s.footer.copyright,
+              legal: [
+                { href: link("privacy"), label: s.footer.privacy },
+                { href: link("terms"), label: s.footer.terms },
+              ],
+            }}
+          />
+        </FooterReveal>
         <SmoothScrollProvider />
         <CookieBanner copy={{ ...s.cookies, moreHref: link("privacy") }} />
         <OrganizationJsonLd />
