@@ -91,6 +91,7 @@ export const site = {
     "لا نبيع المنتجات ولا نشتريها. ننقل ونفحص ونوثّق، ونسلّم بضاعتك حيث تحدد أنت.",
     "We don't buy or sell products. We move, inspect and document, and deliver your goods wherever you decide.",
   ),
+  // 30 days per founder decision; brand PDF says 60 — outdated.
   pilotCta: {
     title: t("جرّبنا 30 يوماً على مسار واحد", "Try us for 30 days on one route"),
     description: t(

@@ -1,4 +1,5 @@
 import { CheckList } from "@/components/sections/CheckList";
+import { CtaBand } from "@/components/sections/CtaBand";
 import { PageHero } from "@/components/sections/PageHero";
 import { SchemaForm } from "@/components/forms/SchemaForm";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -6,7 +7,7 @@ import { NotchSeparator } from "@/components/ui/NotchSeparator";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { pilot } from "@/content/pilot";
-import { routes } from "@/content/site";
+import { routes, site } from "@/content/site";
 import { href } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
 import { getLocale } from "@/lib/params";
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/pilot">) {
 export default async function PilotPage({ params }: PageProps<"/[lang]/pilot">) {
   const locale = await getLocale(params);
   const c = localize(pilot, locale);
+  const cta = localize(site.pilotCta, locale);
 
   return (
     <>
@@ -51,13 +53,17 @@ export default async function PilotPage({ params }: PageProps<"/[lang]/pilot">) 
       </Section>
 
       <NotchSeparator from="light" to="dark" />
-      {/* Forms stay dark; on this page the form itself is the call to action. */}
+      {/* Forms stay dark. */}
       <Section tone="dark" id="request" className="scroll-mt-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_2fr]">
           <SectionHeader index="04" eyebrow={c.formTitle} title={c.formTitle} className="self-start lg:sticky lg:top-24" />
           <SchemaForm formId="pilot" locale={locale} privacyHref={href(locale, routes.privacy)} />
         </div>
       </Section>
+
+      {/* Short page: the red closing band stays here; its button jumps to the form above. */}
+      <NotchSeparator from="dark" to="red" />
+      <CtaBand title={cta.title} description={cta.description} button={cta.button} href="#request" />
     </>
   );
 }
