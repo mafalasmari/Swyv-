@@ -20,13 +20,16 @@ export default async function ThankYouPage({ params }: PageProps<"/[lang]/thank-
   const locale = await getLocale(params);
   const c = localize(system.thankYou, locale);
   return (
-    <section className="bg-grid border-b border-line">
-      <Container className="flex min-h-[60vh] flex-col items-start justify-center gap-8 py-24">
+    // Fully dark, one centred block: no notches, no CTA band. The page ends like a curtain.
+    <section className="section-dark">
+      <Container className="flex min-h-[70vh] flex-col items-center justify-center gap-8 py-24 text-center">
         <span className="grid size-14 place-items-center bg-delivered text-night">
           <CheckIcon className="size-7" />
         </span>
         <h1 className="max-w-3xl text-3xl leading-tight font-semibold text-balance sm:text-5xl">{c.title}</h1>
-        <Button href={href(locale)}>{c.button}</Button>
+        <Button href={href(locale)} size="lg">
+          {c.button}
+        </Button>
       </Container>
     </section>
   );
