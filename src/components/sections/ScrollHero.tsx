@@ -20,8 +20,9 @@ type ScrollHeroProps = {
 };
 
 /** Scroll progress at which each stage ends (the timeline is normalised to 0–1). */
-const REVEAL_END = 0.65;
-const SHIFT_START = 0.8;
+const REVEAL_END = 0.45;
+const REST_START = 0.3;
+const SHIFT_START = 0.75;
 
 /**
  * Latin titles split into letters, grouped per word so lines still break between
@@ -56,9 +57,10 @@ function renderTitle(text: string, locale: Locale) {
 
 /**
  * Tall hero whose sticky stage reveals the title as the page scrolls: letters
- * (Latin) or words (Arabic) rise in by 65%, hold, then the title lifts 8% over
- * the last 20%. The <h1> holds the full text from the first render; with reduced
- * motion the hero is one screen tall and everything is shown at once.
+ * (Latin) or words (Arabic) rise in by 45%, hold until 75%, then the title lifts
+ * 8% over the last 25%. The copy and buttons fade in from 30% to 45%. The <h1>
+ * holds the full text from the first render; with reduced motion the hero is one
+ * screen tall and everything is shown at once.
  */
 export function ScrollHero({
   title,
@@ -83,7 +85,7 @@ export function ScrollHero({
       if (!units.length) return;
 
       // Per-unit timing from the spec: 500ms each, 70ms (letters) or 45ms (words)
-      // apart. The scrubbed timeline is then scaled so the reveal ends at 65%.
+      // apart. The scrubbed timeline is then scaled so the reveal ends at 45%.
       const each = 0.5;
       const stagger = isAr ? 0.045 : 0.07;
       const reveal = each + stagger * (units.length - 1);
@@ -108,8 +110,8 @@ export function ScrollHero({
         tl.fromTo(
           restRef.current,
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: reveal * 0.25 },
-          reveal * 0.75,
+          { opacity: 1, y: 0, duration: total * (REVEAL_END - REST_START) },
+          total * REST_START,
         );
       }
       tl.to(
