@@ -7,7 +7,7 @@ export function CheckList({ items, negative, className }: { items: string[]; neg
     <ul className={cn("grid gap-3", className)}>
       {items.map((item) => (
         <li key={item} className="flex items-start gap-3">
-          <Icon className={cn("mt-0.5 size-5 shrink-0", negative ? "text-steel" : "text-red")} />
+          <Icon className={cn("mt-0.5 size-5 shrink-0", negative ? "text-muted" : "text-red")} />
           <span>{item}</span>
         </li>
       ))}

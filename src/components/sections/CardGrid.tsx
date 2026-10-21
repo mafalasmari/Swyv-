@@ -7,7 +7,7 @@ export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns
   return (
     <ul
       className={cn(
-        "grid border-t border-s border-line sm:grid-cols-2",
+        "grid border-t border-s border-rule sm:grid-cols-2",
         columns === 3 && "lg:grid-cols-3",
         columns === 4 && "lg:grid-cols-4",
       )}
@@ -17,20 +17,20 @@ export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns
           key={card.title}
           id={card.id}
           className={cn(
-            "group flex scroll-mt-24 flex-col gap-3 border-e border-b border-line p-6 transition-colors hover:bg-panel sm:p-7",
-            muted && "text-concrete/80",
+            "group flex scroll-mt-24 flex-col gap-3 border-e border-b border-rule p-6 transition-colors hover:bg-raised sm:p-7",
+            muted && "text-fg/80",
           )}
         >
           <div className="flex items-center justify-between gap-3">
-            <span className="num text-xs text-steel group-hover:text-red">{String(i + 1).padStart(2, "0")}</span>
+            <span className="num text-xs text-muted group-hover:text-accent">{String(i + 1).padStart(2, "0")}</span>
             {card.tag && (
-              <span className="border border-line px-2 py-0.5 font-mono text-[10px] tracking-widest text-steel uppercase">
+              <span className="border border-rule px-2 py-0.5 font-mono text-[10px] tracking-widest text-muted uppercase">
                 {card.tag}
               </span>
             )}
           </div>
           <h3 className="text-lg font-semibold">{card.title}</h3>
-          <p className="text-sm leading-relaxed text-steel">{card.body}</p>
+          <p className="text-sm leading-relaxed text-muted">{card.body}</p>
         </li>
       ))}
     </ul>

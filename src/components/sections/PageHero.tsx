@@ -16,7 +16,7 @@ type PageHeroProps = {
 /** Top-of-page block on the hairline grid, shared by every page. */
 export function PageHero({ eyebrow, title, description, actions, aside, size = "md" }: PageHeroProps) {
   return (
-    <section className="bg-grid relative overflow-hidden border-b border-line">
+    <section className="section-dark bg-grid relative overflow-hidden">
       <div aria-hidden className="absolute inset-y-0 start-0 w-px bg-red/60" />
       <Container
         className={cn(
@@ -35,7 +35,7 @@ export function PageHero({ eyebrow, title, description, actions, aside, size = "
           >
             {title}
           </h1>
-          {description && <p className="max-w-2xl text-lg leading-relaxed text-pretty text-steel">{description}</p>}
+          {description && <p className="max-w-2xl text-lg leading-relaxed text-pretty text-muted">{description}</p>}
           {actions && <div className="mt-2 flex flex-col gap-3 sm:flex-row">{actions}</div>}
         </div>
         {aside}
