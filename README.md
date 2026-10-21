@@ -49,8 +49,8 @@ src/
 ├── content/               # ALL copy, authored once with Arabic + English side by side
 ├── components/
 │   ├── ui/                # Primitives: Button, Logo, StatusTag, Stat, Tabs, Accordion, controls…
-│   ├── layout/            # SiteHeader, SiteFooter, LanguageSwitch, CookieBanner, JSON-LD
-│   ├── sections/          # Page blocks: PageHero, CardGrid, StepTimeline, CtaBand…
+│   ├── layout/            # SiteHeader (+ NavDropdown, MobileDrawer), SiteFooter, FooterReveal, IntroLoader, SmoothScrollProvider, LanguageSwitch, CookieBanner, JSON-LD
+│   ├── sections/          # Page blocks: PageHero, ScrollHero, IndustryGrid, ExpandableCarousel, CardGrid, CtaBand…
 │   ├── tools/             # Interactive tools (client components)
 │   └── forms/             # SchemaForm: renders any form from its schema
 └── lib/
@@ -58,7 +58,7 @@ src/
     ├── simulator.ts       # Decision simulator model
     ├── telemetry.ts       # Seeded asset data + simulated clock
     ├── savings.ts         # Savings calculator formula
-    ├── returns.ts         # Condition codes (ص ق م ت د ر) and routes
+    ├── returns.ts         # Return conditions (name + status colour) and routes
     ├── forms/             # Schemas, shared validation, server action, email delivery
     └── seo.ts             # Per-page metadata, canonical, hreflang, Open Graph
 ```
@@ -67,14 +67,29 @@ src/
 
 ## Brand
 
-From the SWYV brand sheet v0.1: Red `#D7141A`, Night Black `#121212`, Asphalt `#2A2A2C`, Concrete `#EDEDED`, Steel `#8A8D91`, Delivered `#1FA463`, Pending `#F2A900`. Fonts are Poppins (Latin and the wordmark), IBM Plex Sans Arabic (Arabic text) and IBM Plex Mono (numbers and data). The V chevron is the system's graphic device: down = inbound, up = returns.
+From the SWYV brand sheet v0.1: Red `#D7141A`, Night Black `#121212`, Asphalt `#2A2A2C`, Concrete `#EDEDED`, Steel `#8A8D91`, Delivered `#1FA463`, Pending `#F2A900`. Fonts are Poppins (Latin and the wordmark), IBM Plex Sans Arabic (Arabic text) and Geist Mono (numbers and data; Arabic labels fall back to Plex Arabic so letters stay joined). The V chevron is the system's graphic device: down = inbound, up = returns.
 
 The five disposition-route colors were checked for color-blind separation and contrast against the dark panel.
 
+Pages alternate dark, light and muted sections (`.section-dark` / `.section-light` / `.section-muted` in `globals.css`), joined by notch separators. Components use the semantic tokens (`text-fg`, `text-muted`, `border-rule`, `bg-raised`, `text-error`…), which follow the section they sit in. Corners stay sharp.
+
+## Motion
+
+Everything below is skipped with `prefers-reduced-motion: reduce`; the page is then static and complete.
+
+- **Intro** (`IntroLoader`): the chevron draws, "Swyv" rises, the screen splits. Once per session; any click, Escape or Space skips it.
+- **Smooth scrolling** (`SmoothScrollProvider`): Lenis driven by GSAP's ticker, with ScrollTrigger kept in sync. Scrollable inner areas (tables, the mobile menu, textareas, the swipe carousel on phones) carry `data-lenis-prevent`.
+- **Scroll hero** (`ScrollHero`, home page): the title reveals letter by letter (Latin) or word by word (Arabic) by 45% of its scroll, holds, then lifts 8%. Hub East line drawing with one moving truck that pauses off screen.
+- **Reveals** (`Reveal`, `RevealGroup`): headings rise in; grids and lists stagger. Anchor links still land below the header.
+- **Numbers** (`AnimatedNumber`): odometer reels in the calculator and telemetry KPIs; at rest the real text is shown.
+- **Header**: glass that follows the section under it, two-column menus, mobile drawer.
+- **Industry grid** and **expandable carousel** (How it works), and on desktop a footer that the page slides off at the end.
+
 ## The interactive tools
 
-All three are demos running on illustrative data, labeled as such on the page.
+All are demos running on illustrative data, labeled as such on the page.
 
+- **Savings calculator** (`lib/savings.ts`, home page): trips saved and monthly / annual savings when returns ride on delivery runs.
 - **Disposition engine** (`lib/disposition.ts`): for each returned line it evaluates five routes (restock, refurbish, liquidate, recycle, return to supplier). Inputs are the condition code, shelf life left, packaging, value and the client's rules, weighted by value / speed / environmental priority. It explains each blocked route and the recommendation. It is transparent rules, not machine learning, and it only proposes: SWYV doesn't buy or sell goods.
 - **Telemetry dashboard** (`lib/telemetry.ts`): 36 seeded assets on a simulated clock (1 tick = 1 minute of dwell). It has filters, search, sortable columns, and dwell bars against each asset's limit.
 - **Decision simulator** (`lib/simulator.ts`): runs the engine over a sector's typical return mix and compares it with an unsorted baseline. It shows recovered value, time to close, CO₂ avoided and trips saved. The coefficients are assumptions, documented in the file.
