@@ -15,7 +15,7 @@ const tones: Record<Tone, string> = {
 const DOT: Record<Tone, string> = {
   ok: "bg-delivered",
   warn: "bg-pending",
-  bad: "bg-red",
+  bad: "bg-red-bright",
   info: "bg-route-restock",
   idle: "bg-muted",
   live: "bg-delivered",
