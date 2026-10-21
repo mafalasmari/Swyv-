@@ -137,7 +137,7 @@ export function ScrollHero({ title, locale, media, eyebrow, description, actions
           load and while pinned. */}
       <div className="sticky top-(--header-h) flex h-[calc(100svh-var(--header-h))] items-center overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0 text-muted">
-          {media ?? <HubEastSVG className="size-full rtl:-scale-x-100" rtl={locale === "ar"} />}
+          {media ?? <HubEastSVG className="size-full rtl:-scale-x-100" />}
         </div>
         <Container className="relative z-10 flex flex-col gap-6">
           {eyebrow && <Eyebrow index="SWYV">{eyebrow}</Eyebrow>}

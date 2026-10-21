@@ -79,7 +79,7 @@ Everything below is skipped with `prefers-reduced-motion: reduce`; the page is t
 
 - **Intro** (`IntroLoader`): the chevron draws, "Swyv" rises, the screen splits. Once per session; any click, Escape or Space skips it.
 - **Smooth scrolling** (`SmoothScrollProvider`): Lenis driven by GSAP's ticker, with ScrollTrigger kept in sync. Scrollable inner areas (tables, the mobile menu, textareas, the swipe carousel on phones) carry `data-lenis-prevent`.
-- **Scroll hero** (`ScrollHero`, home page): the title reveals letter by letter (Latin) or word by word (Arabic) by 45% of its scroll, holds, then lifts 8%. Hub East line drawing with one moving truck that pauses off screen.
+- **Scroll hero** (`ScrollHero`, home page): the title reveals letter by letter (Latin) or word by word (Arabic) by 45% of its scroll, holds, then lifts 8%. A static Hub East line drawing behind it.
 - **Reveals** (`Reveal`, `RevealGroup`): headings rise in; grids and lists stagger. Anchor links still land below the header.
 - **Numbers** (`AnimatedNumber`): odometer reels in the calculator and telemetry KPIs; at rest the real text is shown.
 - **Header**: glass that follows the section under it, two-column menus, mobile drawer.
