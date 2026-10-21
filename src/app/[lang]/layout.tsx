@@ -56,7 +56,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
               children: "menu" in item && item.menu ? menus[item.menu] : undefined,
             })),
             showMenu: s.showMenu,
-            login: { href: link("login"), label: s.clientLogin },
+            login: { href: link("app"), label: s.clientLogin },
             cta: { href: link("pilot"), label: s.primaryCta },
             switchLanguage: s.switchLanguage,
             switchLanguageLabel: s.switchLanguageLabel,

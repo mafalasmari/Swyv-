@@ -103,12 +103,9 @@ export function LoginForm({ locale, copy }: { locale: Locale; copy: LoginCopy })
           {state.masked}
         </span>
       </p>
-      {state.demoCode && (
+      {state.demo && (
         <p role="status" className="border-s-2 border-pending bg-pending/10 px-3 py-2 text-sm">
-          {copy.demoNote}{" "}
-          <span className="num font-semibold tracking-[0.3em] text-fg" dir="ltr">
-            {state.demoCode}
-          </span>
+          {copy.demoNote}
         </p>
       )}
       <form action={verifyAction} className="relative flex flex-col gap-5" noValidate>
@@ -121,7 +118,6 @@ export function LoginForm({ locale, copy }: { locale: Locale; copy: LoginCopy })
             dir="ltr"
             inputMode="numeric"
             autoComplete="one-time-code"
-            pattern="[0-9]{6}"
             maxLength={6}
             required
             placeholder="••••••"

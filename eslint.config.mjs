@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The portal is its own Vite app; the site only serves its generated build.
+    "portal/**",
+    "src/lib/portal/app-html.ts",
   ]),
 ]);
 

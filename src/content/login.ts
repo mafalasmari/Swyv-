@@ -20,13 +20,13 @@ export const login = {
   resend: t("أعد إرسال الرمز", "Resend code"),
   resendIn: t("إعادة الإرسال بعد {s} ث", "Resend in {s}s"),
   change: t("تغيير الرقم", "Change number"),
-  demoNote: t(
-    "وضع تجريبي: لم يُربط مزوّد رسائل بعد، لذلك يظهر الرمز هنا بدل إرساله:",
-    "Demo mode: no SMS provider is connected yet, so the code is shown here instead of being sent:",
-  ),
+  demoNote: t("وضع تجريبي: لا تُرسل رسالة، واكتب أي رقم كرمز تحقق.", "Demo mode: no SMS is sent. Enter any number as the code."),
+  demoAccounts: t("حسابات تجريبية", "Demo accounts"),
+  roles: { client: t("لوحة العميل", "Client dashboard"), ops: t("لوحة العمليات", "Operations dashboard") },
   notClient: t("لست عميلاً بعد؟", "Not a client yet?"),
   pilot: t("اطلب تجربة 30 يوماً", "Request a 30-day pilot"),
   messages: {
+    unknown: t("هذا الرقم غير مسجّل لدينا. تواصل مع سوايف لتفعيل حسابك.", "This number isn't registered with us. Contact SWYV to activate your account."),
     badPhone: t("أدخل رقم جوال سعودي صحيحاً يبدأ بـ 05.", "Enter a valid Saudi mobile number starting with 05."),
     wait: t("أرسلنا رمزاً قبل قليل. انتظر دقيقة قبل طلب رمز جديد.", "We just sent a code. Wait a minute before asking for a new one."),
     failed: t("تعذّر إرسال الرمز. حاول مرة أخرى بعد قليل.", "We couldn't send the code. Please try again shortly."),

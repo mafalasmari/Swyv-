@@ -17,16 +17,11 @@ export const routes = {
   terms: "/terms",
   thankYou: "/thank-you",
   login: "/login",
+  app: "/app",
 } as const;
 
 export type RouteKey = keyof typeof routes;
 export type NavMenuKey = "services" | "industries" | "portal" | "about";
-
-/**
- * Where a client lands after signing in on /login (mobile number + SMS code).
- * Set NEXT_PUBLIC_PORTAL_URL when the portal moves to its own domain.
- */
-export const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL || "https://swyv.netlify.app/#overview";
 
 export const site = {
   name: t("سوايف للخدمات اللوجستية", "SWYV Logistics Services Co."),

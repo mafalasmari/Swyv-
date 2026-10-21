@@ -7,6 +7,8 @@ import { login } from "@/content/login";
 import { routes } from "@/content/site";
 import { href } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
+import { isOtpDemo } from "@/lib/auth/sms";
+import { ACCOUNTS } from "@/lib/auth/users";
 import { getLocale } from "@/lib/params";
 import { pageMetadata } from "@/lib/seo";
 
@@ -47,6 +49,24 @@ export default async function LoginPage({ params }: PageProps<"/[lang]/login">) 
               }}
             />
           </div>
+          {isOtpDemo() && (
+            <div className="flex flex-col gap-3 border border-dashed border-rule p-5 text-sm">
+              <p className="font-semibold">{c.demoAccounts}</p>
+              <ul className="flex flex-col gap-2">
+                {ACCOUNTS.map((a) => (
+                  <li key={a.phone} className="flex items-center justify-between gap-4">
+                    <span>
+                      {a.name[locale]} <span className="text-muted">· {c.roles[a.role]}</span>
+                    </span>
+                    <span className="num text-fg" dir="ltr">
+                      0{a.phone.slice(4)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-muted">{c.demoNote}</p>
+            </div>
+          )}
           <p className="text-sm text-muted">
             {c.notClient}{" "}
             <Link href={href(locale, routes.pilot)} className="text-accent underline-offset-4 hover:underline">

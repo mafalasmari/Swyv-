@@ -27,7 +27,7 @@ export default async function PortalPage({ params }: PageProps<"/[lang]/portal">
         title={c.intro.title}
         actions={
           <>
-            <Button href={href(locale, routes.login)} size="lg">
+            <Button href={href(locale, routes.app)} size="lg">
               {c.intro.login}
             </Button>
             <Button href={href(locale, routes.contact)} variant="secondary" size="lg">

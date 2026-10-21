@@ -102,16 +102,25 @@ All four forms use one server action (`lib/forms/actions.ts`):
 - **Validation:** the same rules run in `validate.ts`, including Saudi mobile format, required fields, and file type and size (≤ 4 MB).
 - **Delivery:** with `RESEND_API_KEY`, `FORMS_INBOX` and `FORMS_FROM` set, each submission is emailed to the inbox and the sender gets a confirmation in their language. Without them, submissions are only logged to the server console.
 
-## Client login
+## Client login and the portal
 
-"Client login" in the header opens `/[lang]/login`. The client enters a Saudi mobile number and receives a 6-digit code by SMS (`lib/auth`). The code expires after 5 minutes and allows 5 attempts, and a new code can be requested after 60 seconds. On success the site sets a signed, httpOnly `swyv_session` cookie (7 days) and redirects to the portal (`NEXT_PUBLIC_PORTAL_URL`). There is no database: the pending code lives in a signed cookie (`AUTH_SECRET`), stored only as an HMAC.
+"Swyv Portal" in the header opens `/[lang]/app`. Without a session it sends the visitor to `/[lang]/login`: a registered Saudi mobile number, then a code sent by SMS (`lib/auth`). The code expires after 5 minutes and allows 5 attempts, and a new code can be requested after 60 seconds. On success the site sets a signed, httpOnly `swyv_session` cookie (7 days) and opens the portal. There is no database: the pending code lives in a signed cookie (`AUTH_SECRET`), stored only as an HMAC.
 
-Without `SMS_PROVIDER` the login runs in **demo mode** and shows the code on screen. The portal itself is a separate site, so this login gates the link only, not the portal.
+Accounts live in `lib/auth/users.ts`, and each one opens its own dashboard:
+
+| Name | Mobile | Dashboard |
+|---|---|---|
+| فيصل (Faisal) | 0501111111 | Client portal |
+| محمد (Mohammed) | 0502222222 | Operations console |
+
+Without `SMS_PROVIDER` the login runs in **demo mode**: no SMS is sent, any code is accepted, and the login page lists the demo accounts.
+
+The portal itself is the Vite app in `portal/` (front-end demo data, saved in the viewer's browser). `npm run build:site` in `portal/` rebuilds it into `src/lib/portal/app-html.ts`, which `/[lang]/app` serves only to a signed-in account, with the account's name, dashboard and language. Commit the regenerated file.
 
 ## Before going live
 
-- Set `NEXT_PUBLIC_SITE_URL` (canonical URLs, sitemap, share image) and, when ready, `NEXT_PUBLIC_PORTAL_URL` for "Client login".
-- Set `AUTH_SECRET` and an SMS provider (`SMS_PROVIDER` with the Unifonic or Twilio variables) to turn off the login's demo mode.
+- Set `NEXT_PUBLIC_SITE_URL` (canonical URLs, sitemap, share image).
+- Set `AUTH_SECRET` and an SMS provider (`SMS_PROVIDER` with the Unifonic or Twilio variables) to turn off the login's demo mode, and replace the demo accounts in `lib/auth/users.ts`.
 - Configure the Resend variables so forms actually reach you.
 - Have the privacy policy and terms written and legally reviewed. The pages currently show the agreed outline only.
 - Review the careers responsibilities and requirements. They are drafted from the operating model.
