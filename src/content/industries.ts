@@ -26,6 +26,19 @@ export const industries = {
     { code: "PHRM", name: t("الصيدليات والعناية الشخصية (غير المبرّدة)", "Pharmacies & personal care (non-refrigerated)"), deliver: t("توريد الفروع", "Branch supply"), back: t("قريب الانتهاء والمسحوب", "Near-expiry, recalls") },
     { code: "PRTS", name: t("قطع الغيار", "Spare parts"), deliver: t("توصيلات عاجلة للمناطق الصناعية", "Urgent deliveries to industrial areas"), back: t("مرتجعات الضمان والقطع الخاطئة", "Warranty returns, wrong parts") },
   ],
+  /** From the company profile, section 05 · Who we serve. */
+  audience: {
+    eyebrow: t("من نخدمهم", "Who we serve"),
+    title: t("لمن صُمّمت سوايف", "Built for"),
+    lead: t(
+      "أي منشأة تنقل بضاعة لنقاط متعددة داخل الرياض وتستقبل منها مرتجعات أو عبوات أو مخزوناً راكداً.",
+      "Any business that moves goods to many points across Riyadh and gets returns, crates or dead stock back from them.",
+    ),
+    note: t(
+      "نحن لا ننافس شركات توصيل الطرود للمستهلك، بل نخدم الطبقة التي قبلها وبعدها: نقل الحمولات المجمعة بين المستودعات، وتجميع المرتجعات وفرزها.",
+      "We don't compete with parcel couriers to the consumer. We serve the layer before and after them: consolidated loads between warehouses, and returns consolidation and sorting.",
+    ),
+  },
   cta: {
     title: t("قطاعك ليس هنا؟ أخبرنا بما تحتاج.", "Not listed? Tell us what you need."),
     button: t("تواصل معنا", "Contact us"),
