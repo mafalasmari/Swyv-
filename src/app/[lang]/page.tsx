@@ -36,7 +36,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <PageHero
-        size="lg"
+        scroll
+        locale={locale}
         eyebrow={c.hero.eyebrow}
         title={c.hero.title}
         description={c.hero.description}
@@ -50,7 +51,11 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             </Button>
           </>
         }
-        aside={
+      />
+
+      {/* The live board sat beside the static hero; the scroll hero has no aside, so it follows it. */}
+      <Section tone="dark" spacing="sm">
+        <div className="mx-auto max-w-3xl">
           <OpsBoard
             title={c.board.title}
             sample={c.board.sample}
@@ -58,8 +63,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             inboundLabel={c.board.inbound}
             returnLabel={c.board.returns}
           />
-        }
-      />
+        </div>
+      </Section>
 
       <NotchSeparator from="dark" to="light" />
       <Section tone="light">

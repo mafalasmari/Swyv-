@@ -71,7 +71,7 @@ export function ScrollHero({
   actions,
   className,
 }: ScrollHeroProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
 
@@ -134,7 +134,7 @@ export function ScrollHero({
   );
 
   return (
-    <div
+    <section
       ref={rootRef}
       data-scroll-hero
       className={cn(
@@ -177,6 +177,6 @@ export function ScrollHero({
           )}
         </Container>
       </div>
-    </div>
+    </section>
   );
 }
