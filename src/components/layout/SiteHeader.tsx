@@ -50,8 +50,8 @@ export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy 
     <>
       <header className="sticky top-0 z-50 border-b border-line bg-night/90 backdrop-blur">
         <Container className="flex h-16 items-center gap-6">
-          <Link href={copy.homeHref} aria-label="SWYV" className="shrink-0 text-sm">
-            <Logo />
+          <Link href={copy.homeHref} aria-label="SWYV" className="flex shrink-0 items-center">
+            <Logo className="w-[104px] xl:w-[140px]" />
           </Link>
 
           <nav aria-label="Main" className="hidden flex-1 xl:block">

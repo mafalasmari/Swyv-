@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GLYPHS, TRACKING } from "@/lib/wordmark";
 import { InlineScript } from "./InlineScript";
 
 const STORAGE_KEY = "swyv-intro-seen-v1";
@@ -8,28 +9,11 @@ const STORAGE_KEY = "swyv-intro-seen-v1";
 const TOTAL_MS = 2060;
 
 /**
- * Poppins ExtraBold outlines for "Swyv" (font units, baseline at y = 1050).
- * Inlined so the intro never waits for, or flashes, the web font.
- */
-const GLYPHS = [
-  {
-    char: "S",
-    advance: 620,
-    d: "M35 831H244Q247 868 266 885Q285 902 315 902Q342 902 359.5 888.5Q377 875 377 851Q377 820 348 803Q319 786 254 765Q185 742 142.5 720.5Q100 699 68.5 657.5Q37 616 37 549Q37 481 71 432.5Q105 384 165 359Q225 334 301 334Q424 334 497.5 391.5Q571 449 576 553H363Q362 521 343.5 505Q325 489 296 489Q274 489 260 502Q246 515 246 539Q246 559 261.5 573.5Q277 588 300 598.5Q323 609 368 625Q435 648 478.5 670.5Q522 693 553.5 733.5Q585 774 585 836Q585 899 553.5 949Q522 999 462.5 1028Q403 1057 322 1057Q199 1057 120 998.5Q41 940 35 831Z",
-  },
-  { char: "w", advance: 885, d: "M885 489 742 1050H522L444 710L363 1050H144L2 489H197L260 861L343 489H553L639 862L701 489Z" },
-  { char: "y", advance: 655, d: "M660 489 304 1317H91L225 1026L-5 489H213L331 807L445 489Z" },
-  { char: "v", advance: 649, d: "M325 865 430 489H639L446 1050H202L9 489H218Z" },
-];
-
-/**
  * Glyph box: y 71–1320 (1249 units). Its centre (695.5) is the middle of the
  * letters' visible body, so the 50svh split runs through the logo's centre.
  */
 const BOX_TOP = 71;
 const BOX_HEIGHT = 1249;
-/** Matches the wordmark's -0.045em tracking. */
-const TRACKING = -45;
 
 /**
  * Decides play/skip before first paint and owns the timeline even before hydration.

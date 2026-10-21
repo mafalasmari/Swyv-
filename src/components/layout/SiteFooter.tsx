@@ -19,7 +19,7 @@ export function SiteFooter({ copy }: { copy: FooterCopy }) {
     <footer className="border-t border-line bg-ink">
       <Container className="grid gap-12 py-14 md:grid-cols-[1.4fr_1fr_1fr] lg:py-20">
         <div className="flex max-w-sm flex-col gap-5">
-          <Logo withTagline className="text-base" />
+          <Logo withTagline className="w-[168px] lg:w-[220px]" taglineClassName="text-[10px] lg:text-[13px]" />
           <p className="text-sm leading-relaxed text-steel">{copy.about}</p>
         </div>
         <FooterColumn title={copy.servicesTitle} links={copy.services} />
