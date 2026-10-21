@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { portal } from "@/content/portal";
-import { PORTAL_URL, routes } from "@/content/site";
+import { routes } from "@/content/site";
 import { href } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
 import { getLocale } from "@/lib/params";
@@ -27,7 +27,7 @@ export default async function PortalPage({ params }: PageProps<"/[lang]/portal">
         title={c.intro.title}
         actions={
           <>
-            <Button href={PORTAL_URL || "#telemetry"} size="lg">
+            <Button href={href(locale, routes.login)} size="lg">
               {c.intro.login}
             </Button>
             <Button href={href(locale, routes.contact)} variant="secondary" size="lg">

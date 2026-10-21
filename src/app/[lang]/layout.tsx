@@ -7,7 +7,7 @@ import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
-import { PORTAL_URL, routes, site } from "@/content/site";
+import { routes, site } from "@/content/site";
 import { SITE_URL, dirOf, href, locales } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
 import { fontVariables } from "@/lib/fonts";
@@ -56,7 +56,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
               children: "menu" in item && item.menu ? menus[item.menu] : undefined,
             })),
             showMenu: s.showMenu,
-            login: { href: PORTAL_URL || link("portal"), label: s.clientLogin },
+            login: { href: link("login"), label: s.clientLogin },
             cta: { href: link("pilot"), label: s.primaryCta },
             switchLanguage: s.switchLanguage,
             switchLanguageLabel: s.switchLanguageLabel,
