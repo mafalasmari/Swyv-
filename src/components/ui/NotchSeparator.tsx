@@ -1,11 +1,12 @@
 import { cn } from "@/lib/cn";
 
-export type SectionTone = "dark" | "light" | "muted";
+export type SectionTone = "dark" | "light" | "muted" | "red";
 
 const TONE_COLOR: Record<SectionTone, string> = {
   dark: "var(--swyv-black)",
   light: "var(--swyv-concrete)",
   muted: "var(--swyv-asphalt)",
+  red: "var(--swyv-red)",
 };
 
 type NotchSeparatorProps = {
@@ -18,7 +19,7 @@ type NotchSeparatorProps = {
 
 /**
  * Curved hand-off between two sections of different tone: the upper section's
- * colour dips down in a smooth notch at the centre of the edge (~3rem deep).
+ * colour dips down in a smooth notch at the centre of the edge (~4rem deep).
  * The notch keeps a fixed width so the curve never stretches on wide screens,
  * and it is mirrored in RTL.
  */
@@ -27,7 +28,7 @@ export function NotchSeparator({ from, to, className }: NotchSeparatorProps) {
     <div
       aria-hidden="true"
       role="presentation"
-      className={cn("relative flex h-12 justify-center overflow-hidden", className)}
+      className={cn("relative flex h-16 justify-center overflow-hidden", className)}
       style={{ background: TONE_COLOR[to] }}
     >
       <svg

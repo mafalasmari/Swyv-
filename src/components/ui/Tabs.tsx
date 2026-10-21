@@ -18,7 +18,7 @@ export function Tabs({ items, className }: { items: TabItem[]; className?: strin
 
   return (
     <div className={className}>
-      <div role="tablist" className="flex overflow-x-auto border-b border-line [scrollbar-width:none]">
+      <div role="tablist" className="flex overflow-x-auto border-b border-rule [scrollbar-width:none]">
         {items.map((item, i) => (
           <button
             key={item.id}
@@ -36,7 +36,7 @@ export function Tabs({ items, className }: { items: TabItem[]; className?: strin
             }}
             className={cn(
               "-mb-px shrink-0 border-b-2 px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors",
-              i === active ? "border-red text-concrete" : "border-transparent text-steel hover:text-concrete",
+              i === active ? "border-red text-fg" : "border-transparent text-muted hover:text-fg",
             )}
           >
             {item.label}

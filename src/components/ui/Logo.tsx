@@ -16,7 +16,7 @@ export function Logo({ className, withTagline }: LogoProps) {
         <Chevron direction="down" className="mb-[0.18em] size-[0.42em]" />
       </span>
       {withTagline && (
-        <span className="mt-1.5 font-brand text-[0.55em] font-medium tracking-[0.2em] text-concrete uppercase">
+        <span className="mt-1.5 font-brand text-[0.55em] font-medium tracking-[0.2em] text-fg uppercase">
           Logistics Services Co.
         </span>
       )}
