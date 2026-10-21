@@ -13,6 +13,8 @@
   --swyv-steel: #8a8d91;
   --swyv-success: #1fa463;
   --swyv-pending: #f2a900;
+  /* Text-only red for light surfaces: #D7141A on Concrete is 4.48:1, just under AA. */
+  --swyv-red-ink: #b51015;
 
   /* Section-scoped semantic tokens. Defaults = dark; overridden by .section-* below. */
   --surface: var(--swyv-black);
@@ -50,7 +52,8 @@
   .section-muted {
     --surface: var(--swyv-asphalt);
     --fg: var(--swyv-concrete);
-    --muted: var(--swyv-steel);
+    /* Steel on Asphalt is 4.3:1; this lighter steel reaches 5.7:1. */
+    --muted: #a2a4a9;
     --rule: rgb(237 237 237 / 0.12);
     --raised: #333336;
     --accent: var(--swyv-red);
@@ -178,6 +181,13 @@
   input[type="number"]::-webkit-inner-spin-button {
     opacity: 0.4;
   }
+}
+
+/* Red text on light surfaces uses the darker ink so it passes AA; buttons, fills
+   and the chevron (SVG) keep SWYV red. Unlayered so it beats the text-red utility. */
+.section-light .text-red:not(svg),
+.section-light .text-accent:not(svg) {
+  color: var(--swyv-red-ink);
 }
 
 /* Letter-spacing breaks Arabic letter joining, so Arabic labels drop the mono face

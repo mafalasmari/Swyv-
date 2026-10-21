@@ -16,7 +16,7 @@ export function Accordion({ items, className }: { items: AccordionItem[]; classN
               +
             </span>
           </summary>
-          <div className="max-w-3xl ps-9 pb-6 leading-relaxed text-muted">{item.answer}</div>
+          <div className="max-w-3xl ps-9 pb-6 leading-relaxed text-fg/85">{item.answer}</div>
         </details>
       ))}
     </div>
