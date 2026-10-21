@@ -23,10 +23,11 @@ export function LanguageSwitch({ locale, label, ariaLabel, className }: Props) {
       onClick={() => {
         document.cookie = `NEXT_LOCALE=${target}; path=/; max-age=31536000; samesite=lax`;
       }}
-      className={cn("inline-flex items-center gap-1.5 text-sm text-steel transition-colors hover:text-concrete", className)}
+      className={cn("inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-300 hover:text-fg", className)}
     >
       <GlobeIcon className="size-4" />
-      {label}
+      {/* On the narrowest phones only the globe shows, to leave room for Swyv Portal. */}
+      <span className="max-[379px]:sr-only">{label}</span>
     </Link>
   );
 }

@@ -1,5 +1,6 @@
 import { t } from "@/i18n/localize";
 
+// 30 days per founder decision; brand PDF says 60 — outdated.
 export const pilot = {
   seo: {
     title: t("برنامج التجربة 30 يوماً | سوايف", "30-day pilot program | SWYV"),

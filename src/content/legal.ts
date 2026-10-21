@@ -1,6 +1,7 @@
 import { t } from "@/i18n/localize";
 
 export const legal = {
+  eyebrow: t("قانوني", "Legal"),
   reviewNote: t(
     "يُراجع النص النهائي قانونياً وفق نظام حماية البيانات الشخصية قبل النشر. ما يلي هيكل الوثيقة والنقاط المعتمدة حتى الآن.",
     "The final text is subject to legal review under the Personal Data Protection Law before publication. Below is the document structure and the points confirmed so far.",

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { telemetryCopy } from "@/content/tools";
 import type { Locale } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { Segmented, Select, TextInput } from "@/components/ui/controls";
 import { Chevron, SortIcon } from "@/components/ui/icons";
 import { Stat } from "@/components/ui/Stat";
@@ -131,10 +132,10 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-px bg-line lg:grid-cols-4">
-        <Stat className="border-0" label={copy.kpis.active} value={fmt(kpis.active)} />
-        <Stat className="border-0" label={copy.kpis.avgDwell} value={duration(kpis.avgDwell)} />
-        <Stat className="border-0" label={copy.kpis.overSla} value={fmt(kpis.over)} accent={kpis.over > 0} />
-        <Stat className="border-0" label={copy.kpis.exceptions} value={fmt(kpis.exceptions)} accent={kpis.exceptions > 0} />
+        <Stat className="border-0" label={copy.kpis.active} value={<AnimatedNumber value={kpis.active} format={fmt} />} />
+        <Stat className="border-0" label={copy.kpis.avgDwell} value={<AnimatedNumber value={kpis.avgDwell} format={duration} />} />
+        <Stat className="border-0" label={copy.kpis.overSla} value={<AnimatedNumber value={kpis.over} format={fmt} />} accent={kpis.over > 0} />
+        <Stat className="border-0" label={copy.kpis.exceptions} value={<AnimatedNumber value={kpis.exceptions} format={fmt} />} accent={kpis.exceptions > 0} />
       </div>
 
       {/* Filters */}
@@ -190,7 +191,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
             onClick={() => setFilter("overOnly", !filters.overOnly)}
             className={cn(
               "h-11 border px-3 font-mono text-[11px] tracking-wider whitespace-nowrap uppercase transition-colors",
-              filters.overOnly ? "border-red bg-red/15 text-red-bright" : "border-line text-steel hover:text-concrete",
+              filters.overOnly ? "border-red bg-red/15 text-error" : "border-line text-steel hover:text-concrete",
             )}
           >
             {copy.filters.overOnly}
@@ -208,7 +209,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
       </div>
 
       {/* Table */}
-      <div className="max-h-[560px] overflow-auto">
+      <div className="max-h-[560px] overflow-auto" data-lenis-prevent>
         <table className="w-full min-w-[760px] text-sm">
           <thead className="sticky top-0 z-10 bg-panel">
             <tr className="border-b border-line">
@@ -236,7 +237,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
               const ratio = dwellRatio(a);
               const tone = a.status === "delivered" ? "bg-delivered" : ratio > 1 ? "bg-red" : ratio > 0.8 ? "bg-pending" : "bg-steel";
               return (
-                <tr key={a.id} className="border-b border-line transition-colors hover:bg-panel">
+                <tr key={a.id} className="border-b border-line transition-colors odd:bg-surface even:bg-raised hover:bg-panel">
                   <td className="px-4 py-2.5">
                     <span className="flex items-center gap-2">
                       <Chevron
@@ -261,7 +262,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
                       <span className="relative h-1.5 w-24 shrink-0 bg-line" title={`${copy.limit} ${duration(a.sla)}`}>
                         <span className={cn("absolute inset-y-0 start-0", tone)} style={{ width: `${Math.min(100, ratio * 100)}%` }} />
                       </span>
-                      <span className={cn("num text-xs", ratio > 1 && a.status !== "delivered" ? "text-red-bright" : "text-concrete")}>
+                      <span className={cn("num text-xs", ratio > 1 && a.status !== "delivered" ? "text-error" : "text-concrete")}>
                         {duration(a.dwell)}
                       </span>
                       <span className="num text-[11px] text-steel">/ {duration(a.sla)}</span>

@@ -67,7 +67,7 @@ export function SchemaForm({ formId, locale, privacyHref, defaults = {} }: Schem
 
       <div className="flex flex-col gap-3 sm:col-span-2">
         {state.status === "error" && state.message && (
-          <p role="alert" className="border-s-2 border-red bg-red/10 px-3 py-2 text-sm text-red-bright">
+          <p role="alert" className="border-s-2 border-red bg-red/10 px-3 py-2 text-sm text-error">
             {state.message}
           </p>
         )}
@@ -123,7 +123,7 @@ function Field({
           {formMessages.readPolicy[locale]}
         </Link>
         {error && (
-          <span role="alert" className="ps-8 text-xs text-red-bright">
+          <span role="alert" className="ps-8 text-xs text-error">
             {error}
           </span>
         )}
@@ -154,7 +154,7 @@ function Field({
           ))}
         </div>
         {error && (
-          <span role="alert" className="text-xs text-red-bright">
+          <span role="alert" className="text-xs text-error">
             {error}
           </span>
         )}

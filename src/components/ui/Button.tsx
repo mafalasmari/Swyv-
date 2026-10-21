@@ -17,8 +17,8 @@ export type ButtonProps = {
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-red text-white hover:bg-red-bright",
-  secondary: "border border-concrete/30 text-concrete hover:border-concrete hover:bg-concrete/5",
-  ghost: "text-steel hover:text-concrete",
+  secondary: "border border-fg/30 text-fg hover:border-fg hover:bg-fg/5",
+  ghost: "text-muted hover:text-fg",
   link: "text-red underline-offset-4 hover:underline",
 };
 

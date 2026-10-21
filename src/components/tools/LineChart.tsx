@@ -57,7 +57,7 @@ export function LineChart({ series, xLabels, xTitle, height = 280, ariaLabel }: 
       >
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={PAD.left} x2={WIDTH - PAD.right} y1={y(t)} y2={y(t)} stroke="var(--color-line)" strokeWidth={1} />
+            <line x1={PAD.left} x2={WIDTH - PAD.right} y1={y(t)} y2={y(t)} stroke="var(--swyv-steel)" strokeOpacity={0.4} strokeWidth={1} />
             <text x={PAD.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="fill-steel font-mono text-[10px]">
               {compact(t)}
             </text>

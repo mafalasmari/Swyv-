@@ -27,7 +27,7 @@ export const engineCopy = {
   rulesTitle: t("قواعدك", "Your rules"),
   priorityTitle: t("الأولوية", "Priority"),
   category: t("الفئة", "Category"),
-  condition: t("رمز الحالة", "Condition code"),
+  condition: t("الحالة", "Status"),
   unitValue: t("قيمة الوحدة (ريال)", "Unit value (SAR)"),
   qty: t("الكمية", "Quantity"),
   daysToExpiry: t("أيام حتى الانتهاء", "Days to expiry"),
@@ -59,7 +59,7 @@ export const engineCopy = {
   ),
   batchHeaders: {
     sku: t("الصنف", "Item"),
-    code: t("الحالة", "Code"),
+    code: t("الحالة", "Status"),
     qty: t("الكمية", "Qty"),
     route: t("الوجهة", "Route"),
     net: t("صافي القيمة", "Net value"),

@@ -16,15 +16,12 @@ export const routes = {
   privacy: "/privacy",
   terms: "/terms",
   thankYou: "/thank-you",
+  login: "/login",
+  app: "/app",
 } as const;
 
 export type RouteKey = keyof typeof routes;
-
-/**
- * Where "Client login" points. Set NEXT_PUBLIC_PORTAL_URL once the live portal
- * has a domain; until then it opens the portal page on this site.
- */
-export const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL ?? "";
+export type NavMenuKey = "services" | "industries" | "portal" | "about";
 
 export const site = {
   name: t("سوايف للخدمات اللوجستية", "SWYV Logistics Services Co."),
@@ -35,17 +32,21 @@ export const site = {
   ),
   city: t("الرياض، المملكة العربية السعودية", "Riyadh, Kingdom of Saudi Arabia"),
   skipToContent: t("تخطَّ إلى المحتوى", "Skip to content"),
+  /** Main navigation. Items with a menu open a two-column panel built in lib/navMenus. */
   nav: [
-    { route: "services", label: t("الخدمات", "Services") },
+    { route: "home", label: t("الرئيسية", "Home") },
+    { route: "services", label: t("الخدمات", "Services"), menu: "services" },
     { route: "howItWorks", label: t("كيف نعمل", "How it works") },
-    { route: "industries", label: t("القطاعات", "Industries") },
-    { route: "portal", label: t("بوابة SWYV", "SWYV Portal") },
-    { route: "about", label: t("من نحن", "About") },
+    { route: "industries", label: t("القطاعات", "Industries"), menu: "industries" },
+    { route: "portal", label: t("بوابة SWYV", "SWYV Portal"), menu: "portal" },
+    { route: "about", label: t("من نحن", "About"), menu: "about" },
     { route: "contact", label: t("تواصل معنا", "Contact") },
-  ] satisfies { route: RouteKey; label: unknown }[],
+  ] satisfies { route: RouteKey; label: unknown; menu?: NavMenuKey }[],
+  /** Screen-reader label of the button that opens an item's menu, followed by the item name. */
+  showMenu: t("عرض قائمة", "Show menu:"),
   switchLanguage: t("English", "العربية"),
   switchLanguageLabel: t("التبديل إلى الإنجليزية", "Switch to Arabic"),
-  clientLogin: t("دخول العملاء", "Client login"),
+  clientLogin: t("Swyv Portal", "Swyv Portal"),
   primaryCta: t("اطلب تجربة 30 يوماً", "Request a 30-day pilot"),
   openMenu: t("فتح القائمة", "Open menu"),
   closeMenu: t("إغلاق القائمة", "Close menu"),
@@ -91,6 +92,7 @@ export const site = {
     "لا نبيع المنتجات ولا نشتريها. ننقل ونفحص ونوثّق، ونسلّم بضاعتك حيث تحدد أنت.",
     "We don't buy or sell products. We move, inspect and document, and deliver your goods wherever you decide.",
   ),
+  // 30 days per founder decision; brand PDF says 60 — outdated.
   pilotCta: {
     title: t("جرّبنا 30 يوماً على مسار واحد", "Try us for 30 days on one route"),
     description: t(

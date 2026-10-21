@@ -18,8 +18,8 @@ export default function GlobalNotFound() {
       <body>
         <header className="border-b border-line">
           <Container className="flex h-16 items-center">
-            <Link href="/ar" aria-label="SWYV" className="text-sm">
-              <Logo />
+            <Link href="/ar" aria-label="SWYV" className="flex items-center">
+              <Logo className="w-[104px] xl:w-[140px]" />
             </Link>
           </Container>
         </header>

@@ -15,7 +15,7 @@ import { AllocationBar } from "./AllocationBar";
 import { LineChart } from "./LineChart";
 
 const BASELINE_COLOR = "var(--color-steel)";
-const SWYV_COLOR = "var(--color-red-bright)";
+const SWYV_COLOR = "var(--swyv-red)";
 
 export function DecisionSimulator({ locale }: { locale: Locale }) {
   const copy = localize(simulatorCopy, locale);
@@ -162,7 +162,7 @@ export function DecisionSimulator({ locale }: { locale: Locale }) {
             {copy.tableToggle}
           </button>
           {showTable && (
-            <div className="mt-3 overflow-x-auto">
+            <div className="mt-3 overflow-x-auto" data-lenis-prevent>
               <table className="w-full min-w-[420px] text-xs">
                 <thead>
                   <tr className="border-b border-line text-steel">

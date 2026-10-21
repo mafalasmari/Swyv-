@@ -17,7 +17,7 @@ export function PortalPreview({ locale }: { locale: Locale }) {
   const steps = STEPS[locale];
   const current = 3;
   return (
-    <div className="border border-line bg-panel">
+    <div className="section-dark border border-line bg-panel">
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
         <span className="flex gap-1.5" aria-hidden>
           <span className="size-2 bg-line" />

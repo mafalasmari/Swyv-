@@ -22,8 +22,9 @@ export function AllocationBar({ segments, unit }: { segments: Segment[]; unit: s
       </div>
       <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-xs sm:grid-cols-3 lg:grid-cols-5">
         {segments.map((s) => (
-          <li key={s.key} className={cn("flex items-center gap-2", s.value === 0 && "opacity-40")}>
-            <span aria-hidden className={cn("size-2.5 shrink-0", s.swatch)} />
+          <li key={s.key} className="flex items-center gap-2">
+            {/* A zero share dims only its swatch, so the label keeps readable contrast. */}
+            <span aria-hidden className={cn("size-2.5 shrink-0", s.swatch, s.value === 0 && "opacity-40")} />
             <span className="text-steel">{s.label}</span>
             <span className="num ms-auto text-concrete">{pct(s.value / total)}</span>
           </li>

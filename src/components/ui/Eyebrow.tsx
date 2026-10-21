@@ -12,9 +12,9 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={cn("flex items-center gap-3 font-mono text-xs tracking-[0.16em] text-steel uppercase", className)}>
+    <p className={cn("flex items-center gap-3 font-mono text-xs tracking-[0.16em] text-muted uppercase", className)}>
       {index && <span className="text-red">{index}</span>}
-      {index && <span aria-hidden className="h-px w-6 bg-line" />}
+      {index && <span aria-hidden className="h-px w-6 bg-rule" />}
       <span>{children}</span>
     </p>
   );

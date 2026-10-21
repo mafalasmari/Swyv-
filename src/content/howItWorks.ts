@@ -60,8 +60,8 @@ export const howItWorks = {
       dir: "up",
     },
   ],
-  codesTitle: t("رموز الحالة", "Condition codes"),
-  codeHeaders: { code: t("الرمز", "Code"), condition: t("الحالة", "Condition") },
+  codesTitle: t("دليل الحالات", "Status guide"),
+  codeHeaders: { condition: t("الحالة", "Condition") },
   engine: {
     eyebrow: t("محرك التوجيه", "Disposition engine"),
     title: t("أين يذهب كل مرتجع؟", "Where should each return go?"),

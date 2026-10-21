@@ -1,12 +1,15 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "./Container";
+import type { SectionTone } from "./NotchSeparator";
 
 type SectionProps = ComponentPropsWithoutRef<"section"> & {
   containerClassName?: string;
   spacing?: "sm" | "md" | "lg";
-  /** Draws the hairline divider that separates stacked sections. */
+  /** Draws the hairline divider that separates stacked sections of the same tone. */
   divided?: boolean;
+  /** Applies .section-dark / -light / -muted; toned sections are separated by NotchSeparator instead of a hairline. */
+  tone?: Exclude<SectionTone, "red">;
 };
 
 const spacings = {
@@ -19,12 +22,21 @@ export function Section({
   className,
   containerClassName,
   spacing = "md",
-  divided = true,
+  divided,
+  tone,
   children,
   ...props
 }: SectionProps) {
   return (
-    <section className={cn(spacings[spacing], divided && "border-t border-line", className)} {...props}>
+    <section
+      className={cn(
+        spacings[spacing],
+        tone && `section-${tone}`,
+        (divided ?? !tone) && "border-t border-rule",
+        className,
+      )}
+      {...props}
+    >
       <Container className={containerClassName}>{children}</Container>
     </section>
   );

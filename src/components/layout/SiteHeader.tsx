@@ -2,131 +2,190 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
-import { cn } from "@/lib/cn";
+import { replayIntro } from "./IntroLoader";
+import type { NavChild } from "@/lib/navMenus";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { MobileDrawer } from "./MobileDrawer";
+import { NavDropdown } from "./NavDropdown";
+
+export type HeaderNavItem = { href: string; label: string; children?: NavChild[] };
 
 export type HeaderCopy = {
   homeHref: string;
-  nav: { href: string; label: string }[];
+  nav: HeaderNavItem[];
   login: { href: string; label: string };
   cta: { href: string; label: string };
   switchLanguage: string;
   switchLanguageLabel: string;
   openMenu: string;
   closeMenu: string;
+  showMenu: string;
 };
 
-export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy }) {
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+const THEMED = ".section-dark, .section-light, .section-muted, [data-header-theme]";
 
-  // Close the drawer whenever the route changes.
+/**
+ * Keeps html[data-theme] in step with the section under the header's bottom edge,
+ * so the header switches between its dark and light glass. An IntersectionObserver
+ * watches a 1px band at that edge; when sections nest (a light card in a dark
+ * page), the innermost one wins. Sections in hidden pages never intersect.
+ */
+function useHeaderTheme(header: React.RefObject<HTMLElement | null>, pathname: string | null) {
+  useEffect(() => {
+    let io: IntersectionObserver | null = null;
+    const hits = new Set<Element>();
+
+    const apply = () => {
+      const inner = [...hits].find((el) => ![...hits].some((other) => other !== el && el.contains(other)));
+      if (!inner) return;
+      const tone = inner.getAttribute("data-header-theme") ?? (inner.classList.contains("section-light") ? "light" : "dark");
+      document.documentElement.dataset.theme = tone;
+    };
+
+    const setup = () => {
+      io?.disconnect();
+      hits.clear();
+      const edge = header.current?.offsetHeight ?? 64;
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) hits.add(e.target);
+            else hits.delete(e.target);
+          }
+          apply();
+        },
+        { rootMargin: `-${edge}px 0px -${Math.max(0, window.innerHeight - edge - 1)}px 0px` },
+      );
+      document.querySelectorAll(THEMED).forEach((el) => {
+        if (!el.closest(".site-header, #mobile-menu")) io!.observe(el);
+      });
+    };
+
+    // After the new page has rendered.
+    const id = requestAnimationFrame(setup);
+    window.addEventListener("resize", setup);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener("resize", setup);
+      io?.disconnect();
+    };
+  }, [header, pathname]);
+}
+
+export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [menu, setMenu] = useState<string | null>(null);
+  const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  useHeaderTheme(headerRef, pathname);
+
+  // Close everything whenever the route changes.
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
-    setOpen(false);
+    setDrawerOpen(false);
+    setMenu(null);
   }
 
+  // A click outside the header closes an open menu.
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
+    if (!menu) return;
+    const onDown = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setMenu(null);
     };
-  }, [open]);
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [menu]);
 
-  const isActive = (href: string) => pathname === href || pathname?.startsWith(`${href}/`);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const isActive = (href: string) =>
+    href === copy.homeHref ? pathname === href : pathname === href || Boolean(pathname?.startsWith(`${href}/`));
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-line bg-night/90 backdrop-blur">
-        <Container className="flex h-16 items-center gap-6">
-          <Link href={copy.homeHref} aria-label="SWYV" className="shrink-0 text-sm">
-            <Logo />
+      <header ref={headerRef} className="site-header sticky top-0 z-50 border-b border-rule">
+        <Container className="flex h-14 items-center gap-4 sm:gap-6 xl:h-16">
+          <Link href={copy.homeHref} aria-label="SWYV" onClick={replayIntro} className="flex shrink-0 items-center">
+            <Logo className="w-[104px] xl:w-[140px]" />
           </Link>
 
-          <nav aria-label="Main" className="hidden flex-1 xl:block">
-            <ul className="flex items-center gap-1">
-              {copy.nav.map((item) => (
-                <li key={item.href}>
-                  <Link
+          <nav aria-label="Main" className="hidden flex-1 justify-center xl:flex">
+            <ul className="flex items-center">
+              {copy.nav.map((item, i) =>
+                item.children ? (
+                  <NavDropdown
+                    key={item.href}
+                    id={`nav-${i}`}
+                    label={item.label}
                     href={item.href}
-                    aria-current={isActive(item.href) ? "page" : undefined}
-                    className={cn(
-                      "relative px-3 py-2 text-sm transition-colors",
-                      isActive(item.href)
-                        ? "text-concrete after:absolute after:inset-x-3 after:-bottom-[17px] after:h-0.5 after:bg-red"
-                        : "text-steel hover:text-concrete",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+                    active={isActive(item.href)}
+                    items={item.children}
+                    open={menu === item.href}
+                    showMenuLabel={copy.showMenu}
+                    onOpen={() => setMenu(item.href)}
+                    onClose={() => setMenu((m) => (m === item.href ? null : m))}
+                  />
+                ) : (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={isActive(item.href) ? "page" : undefined}
+                      className="nav-link"
+                      onMouseEnter={() => setMenu(null)}
+                    >
+                      {isActive(item.href) && <span aria-hidden className="nav-dot" />}
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
 
           <div className="ms-auto hidden items-center gap-4 xl:flex">
             <LanguageSwitch locale={locale} label={copy.switchLanguage} ariaLabel={copy.switchLanguageLabel} />
-            <Link href={copy.login.href} className="text-sm text-steel transition-colors hover:text-concrete">
+            <Button href={copy.login.href} variant="secondary" size="sm">
               {copy.login.label}
-            </Link>
+            </Button>
             <Button href={copy.cta.href} size="sm">
               {copy.cta.label}
             </Button>
           </div>
 
-          <div className="ms-auto flex items-center gap-4 xl:hidden">
+          <div className="ms-auto flex items-center gap-3 xl:hidden">
             <LanguageSwitch locale={locale} label={copy.switchLanguage} ariaLabel={copy.switchLanguageLabel} />
+            <Button href={copy.login.href} variant="secondary" size="sm" className="whitespace-nowrap">
+              {copy.login.label}
+            </Button>
             <button
               type="button"
-              aria-label={open ? copy.closeMenu : copy.openMenu}
-              aria-expanded={open}
+              aria-label={drawerOpen ? copy.closeMenu : copy.openMenu}
+              aria-expanded={drawerOpen}
               aria-controls="mobile-menu"
-              onClick={() => setOpen((v) => !v)}
-              className="grid size-10 place-items-center border border-line"
+              onClick={() => setDrawerOpen((v) => !v)}
+              className="grid size-10 place-items-center border border-rule"
             >
-              {open ? <CloseIcon className="size-5" /> : <MenuIcon className="size-5" />}
+              {drawerOpen ? <CloseIcon className="size-5" /> : <MenuIcon className="size-5" />}
             </button>
           </div>
         </Container>
       </header>
 
-      {/* Outside <header>: its backdrop-filter would make this fixed panel position relative to the header. */}
-      {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-night xl:hidden">
-          <Container as="nav" aria-label="Mobile" className="flex flex-col py-4">
-            {copy.nav.map((item, i) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                className="flex items-center gap-4 border-b border-line py-4 text-lg"
-              >
-                <span className="num text-xs text-red">{String(i + 1).padStart(2, "0")}</span>
-                {item.label}
-              </Link>
-            ))}
-            <div className="mt-6 grid gap-3">
-              <Button href={copy.cta.href} size="lg">
-                {copy.cta.label}
-              </Button>
-              <Button href={copy.login.href} variant="secondary" size="lg">
-                {copy.login.label}
-              </Button>
-            </div>
-          </Container>
-        </div>
-      )}
+      <MobileDrawer
+        open={drawerOpen}
+        items={copy.nav}
+        isActive={isActive}
+        showMenuLabel={copy.showMenu}
+        cta={copy.cta}
+        login={copy.login}
+        onClose={closeDrawer}
+      />
     </>
   );
 }
