@@ -109,7 +109,7 @@ export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy 
   return (
     <>
       <header ref={headerRef} className="site-header sticky top-0 z-50 border-b border-rule">
-        <Container className="flex h-14 items-center gap-6 xl:h-16">
+        <Container className="flex h-14 items-center gap-4 sm:gap-6 xl:h-16">
           <Link href={copy.homeHref} aria-label="SWYV" className="flex shrink-0 items-center">
             <Logo className="w-[104px] xl:w-[140px]" />
           </Link>
@@ -149,16 +149,19 @@ export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy 
 
           <div className="ms-auto hidden items-center gap-4 xl:flex">
             <LanguageSwitch locale={locale} label={copy.switchLanguage} ariaLabel={copy.switchLanguageLabel} />
-            <Link href={copy.login.href} className="text-sm text-muted transition-colors duration-300 hover:text-fg">
+            <Button href={copy.login.href} variant="secondary" size="sm">
               {copy.login.label}
-            </Link>
+            </Button>
             <Button href={copy.cta.href} size="sm">
               {copy.cta.label}
             </Button>
           </div>
 
-          <div className="ms-auto flex items-center gap-4 xl:hidden">
+          <div className="ms-auto flex items-center gap-3 xl:hidden">
             <LanguageSwitch locale={locale} label={copy.switchLanguage} ariaLabel={copy.switchLanguageLabel} />
+            <Button href={copy.login.href} variant="secondary" size="sm" className="whitespace-nowrap">
+              {copy.login.label}
+            </Button>
             <button
               type="button"
               aria-label={drawerOpen ? copy.closeMenu : copy.openMenu}

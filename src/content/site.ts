@@ -51,7 +51,7 @@ export const site = {
   showMenu: t("عرض قائمة", "Show menu:"),
   switchLanguage: t("English", "العربية"),
   switchLanguageLabel: t("التبديل إلى الإنجليزية", "Switch to Arabic"),
-  clientLogin: t("دخول العملاء", "Client login"),
+  clientLogin: t("Swyv Portal", "Swyv Portal"),
   primaryCta: t("اطلب تجربة 30 يوماً", "Request a 30-day pilot"),
   openMenu: t("فتح القائمة", "Open menu"),
   closeMenu: t("إغلاق القائمة", "Close menu"),
