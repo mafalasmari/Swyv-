@@ -34,7 +34,7 @@ export function SectionHeader({
         >
           {title}
         </Heading>
-        {description && <p className="text-base leading-relaxed text-pretty text-steel sm:text-lg">{description}</p>}
+        {description && <p className="text-base leading-relaxed text-pretty text-muted sm:text-lg">{description}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </header>

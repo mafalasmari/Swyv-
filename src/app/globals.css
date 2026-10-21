@@ -19,6 +19,7 @@
   --fg: var(--swyv-concrete);
   --muted: var(--swyv-steel);
   --rule: #2f2f32;
+  --raised: #1a1a1c;
   --accent: var(--swyv-red);
 }
 
@@ -28,6 +29,7 @@
     --fg: var(--swyv-concrete);
     --muted: var(--swyv-steel);
     --rule: #2f2f32;
+    --raised: #1a1a1c;
     --accent: var(--swyv-red);
     background: var(--surface);
     color: var(--fg);
@@ -39,6 +41,7 @@
     /* Steel on Concrete is ~2.9:1, too faint for body text; this keeps muted copy at 4.5:1+. */
     --muted: #5c5e63;
     --rule: rgb(18 18 18 / 0.14);
+    --raised: #f7f7f6;
     --accent: var(--swyv-red);
     background: var(--surface);
     color: var(--fg);
@@ -49,6 +52,7 @@
     --fg: var(--swyv-concrete);
     --muted: var(--swyv-steel);
     --rule: rgb(237 237 237 / 0.12);
+    --raised: #333336;
     --accent: var(--swyv-red);
     background: var(--surface);
     color: var(--fg);
@@ -69,6 +73,8 @@
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
+  /* Slightly lifted surface for cards and hover states within a section. */
+  --color-raised: var(--raised);
   --color-accent: var(--accent);
 
   /* Legacy names kept as aliases until components move to the semantic tokens (phase 3). */
