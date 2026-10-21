@@ -49,7 +49,15 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
 }
 
 export function NumberInput({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
-  return <input type="number" inputMode="decimal" dir="ltr" className={cn(controlClass, "num text-start", className)} {...props} />;
+  return (
+    <input
+      type="number"
+      inputMode="decimal"
+      dir="ltr"
+      className={cn(controlClass, "num text-start", className)}
+      {...props}
+    />
+  );
 }
 
 export function Select({
@@ -69,7 +77,7 @@ export function Select({
 }
 
 export function TextArea({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea className={cn(controlClass, "h-auto min-h-28 py-3", className)} {...props} />;
+  return <textarea data-lenis-prevent className={cn(controlClass, "h-auto min-h-28 py-3", className)} {...props} />;
 }
 
 /** Range slider with a filled track in SWYV red. */

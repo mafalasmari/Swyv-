@@ -11,6 +11,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { StatusTag } from "@/components/ui/StatusTag";
 import { Tabs } from "@/components/ui/Tabs";
 import { getLocale } from "@/lib/params";
+import { ScrollProbe } from "./ScrollProbe";
 
 // Temporary review page for phase 3: every converted component on each tone.
 // Not linked, not in the sitemap, not indexed. Removed when phase 3 is approved.
@@ -109,6 +110,7 @@ export default async function ToneTestPage({ params }: PageProps<"/[lang]/test-n
           {i < TONES.length - 1 && <NotchSeparator from={tone} to={TONES[i + 1]} />}
         </div>
       ))}
+      <ScrollProbe />
     </>
   );
 }

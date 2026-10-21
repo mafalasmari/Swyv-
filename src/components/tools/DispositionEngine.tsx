@@ -168,7 +168,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
 
           <div>
             <p className="mb-3 font-mono text-xs tracking-[0.14em] text-steel uppercase">{copy.options}</p>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" data-lenis-prevent>
               <table className="w-full min-w-[520px] text-sm">
                 <thead>
                   <tr className="border-b border-line text-start font-mono text-[11px] tracking-wider text-steel uppercase">
@@ -220,7 +220,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
           <PanelTitle>{copy.batchTitle}</PanelTitle>
           <p className="text-sm text-steel">{copy.batchDescription}</p>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" data-lenis-prevent>
           <table className="w-full min-w-[600px] text-sm">
             <thead>
               <tr className="border-b border-line font-mono text-[11px] tracking-wider text-steel uppercase">

@@ -5,6 +5,7 @@ import { IntroLoader } from "@/components/layout/IntroLoader";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 import { PORTAL_URL, routes, site } from "@/content/site";
 import { SITE_URL, dirOf, href, locales } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
@@ -71,6 +72,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             ],
           }}
         />
+        <SmoothScrollProvider />
         <CookieBanner copy={{ ...s.cookies, moreHref: link("privacy") }} />
         <OrganizationJsonLd />
       </body>

@@ -103,7 +103,11 @@ export function SiteHeader({ locale, copy }: { locale: Locale; copy: HeaderCopy 
 
       {/* Outside <header>: its backdrop-filter would make this fixed panel position relative to the header. */}
       {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-night xl:hidden">
+        <div
+          id="mobile-menu"
+          data-lenis-prevent
+          className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-night xl:hidden"
+        >
           <Container as="nav" aria-label="Mobile" className="flex flex-col py-4">
             {copy.nav.map((item, i) => (
               <Link

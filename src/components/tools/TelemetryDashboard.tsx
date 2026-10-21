@@ -208,7 +208,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
       </div>
 
       {/* Table */}
-      <div className="max-h-[560px] overflow-auto">
+      <div className="max-h-[560px] overflow-auto" data-lenis-prevent>
         <table className="w-full min-w-[760px] text-sm">
           <thead className="sticky top-0 z-10 bg-panel">
             <tr className="border-b border-line">

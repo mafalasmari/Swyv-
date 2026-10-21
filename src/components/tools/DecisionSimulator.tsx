@@ -162,7 +162,7 @@ export function DecisionSimulator({ locale }: { locale: Locale }) {
             {copy.tableToggle}
           </button>
           {showTable && (
-            <div className="mt-3 overflow-x-auto">
+            <div className="mt-3 overflow-x-auto" data-lenis-prevent>
               <table className="w-full min-w-[420px] text-xs">
                 <thead>
                   <tr className="border-b border-line text-steel">

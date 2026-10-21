@@ -213,6 +213,24 @@ html[lang="ar"] .font-mono:not(.num) {
   background-size: 48px 48px;
 }
 
+/* Lenis hooks (smooth scrolling is never initialised for reduced motion). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+/* Lenis animates the scroll itself. html.lenis is present whenever Lenis runs (lenis-smooth
+   only while it is mid-animation), so native smooth scrolling is switched off on .lenis:
+   otherwise Next's jump to the new page's position becomes a slow native animation. */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
