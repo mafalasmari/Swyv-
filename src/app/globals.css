@@ -213,6 +213,117 @@ html[lang="ar"] .font-mono:not(.num) {
   background-size: 48px 48px;
 }
 
+/* Height of the sticky header including its 1px border (h-14 / xl:h-16). */
+:root {
+  --header-h: 57px;
+}
+@media (width >= 80rem) {
+  :root {
+    --header-h: 65px;
+  }
+}
+
+/* Header glass: dark over dark and muted sections, light over light ones.
+   html[data-theme] is set by SiteHeader from the section under its bottom edge. */
+.site-header {
+  --surface: var(--swyv-black);
+  --fg: var(--swyv-concrete);
+  --muted: var(--swyv-steel);
+  --rule: #2f2f32;
+  --raised: #1a1a1c;
+  --accent: var(--swyv-red);
+  background: rgb(18 18 18 / 0.4);
+  color: var(--fg);
+  backdrop-filter: blur(30px);
+  transition:
+    background-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out);
+}
+html[data-theme="light"] .site-header {
+  --surface: var(--swyv-concrete);
+  --fg: var(--swyv-black);
+  --muted: #5c5e63;
+  --rule: rgb(18 18 18 / 0.14);
+  --raised: #f7f7f6;
+  background: rgb(237 237 237 / 0.7);
+}
+
+/* Main navigation links: an underline that grows on hover/focus, and a red dot
+   that scales in beside the current page. */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  color: var(--muted);
+  transition: color 0.3s var(--ease-out);
+}
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-link[aria-current="page"] {
+  color: var(--fg);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.625rem;
+  bottom: 0.25rem;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-hover);
+}
+[dir="rtl"] .nav-link::after {
+  transform-origin: right;
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+.nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--swyv-red);
+  animation: nav-dot 1s var(--ease-reveal) both;
+}
+@keyframes nav-dot {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Header menu panel: full header width, wiped open from the top. Hidden panels
+   are also invisible so their links leave the tab order. */
+.nav-panel {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--fg);
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition:
+    clip-path 0.25s var(--ease-reveal),
+    visibility 0s linear 0.25s;
+}
+.nav-panel[data-open] {
+  clip-path: inset(0);
+  visibility: visible;
+  transition: clip-path 0.25s var(--ease-reveal);
+}
+
 /* ScrollHero: each letter is clipped by its wrapper while it rises. The padding gives
    descenders room; the negative margin keeps the line box unchanged. */
 .sh-char-wrapper {
@@ -244,6 +355,85 @@ html[lang="ar"] .font-mono:not(.num) {
   .sh-rest {
     transform: translateY(20px);
     opacity: 0;
+  }
+}
+
+/* Reveal / RevealGroup: rise 60px and fade in when scrolled into view. Hidden only
+   when scripts run and motion is allowed, so content never depends on JavaScript.
+   Colour transitions are listed too, so hover effects on revealed cards keep easing. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal,
+  [data-reveal-group] .reveal-item {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+  }
+  .reveal {
+    transition:
+      opacity 0.6s var(--ease-fade),
+      transform 1.2s var(--ease-reveal);
+  }
+  /* none rather than translate3d(0, 0, 0): a resting 3D transform keeps a GPU
+     layer that shifts the anti-aliasing of what sits nearby (e.g. tool charts). */
+  .reveal.is-revealed,
+  [data-reveal-group].is-revealed .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal-group].is-revealed .reveal-item {
+    --delay: calc(var(--i, 0) * var(--stagger, 70ms));
+    transition:
+      opacity 0.6s var(--ease-fade) var(--delay),
+      transform 1.2s var(--ease-reveal) var(--delay),
+      background-color 150ms,
+      color 150ms,
+      border-color 150ms;
+  }
+}
+
+/* AnimatedNumber: transparent real text for layout and screen readers, with the
+   rolling digit reels laid exactly over it. */
+.odo {
+  position: relative;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+.odo-ghost {
+  color: transparent;
+}
+.odo-reel {
+  position: absolute;
+  inset: 0;
+  white-space: pre;
+}
+.odo-col {
+  display: inline-block;
+  height: 1lh;
+  overflow: clip;
+  vertical-align: top;
+}
+.odo-stack {
+  display: block;
+}
+.odo-stack > span {
+  display: block;
+}
+.odo[data-on] .odo-stack {
+  transform: translateY(calc(var(--d) * -10%));
+  transition: transform var(--odo-duration, 1.2s) var(--ease-reveal);
+}
+/* At rest, and without scripts or with reduced motion, the real text shows. */
+.odo[data-settled] .odo-ghost {
+  color: inherit;
+}
+.odo[data-settled] .odo-reel {
+  visibility: hidden;
+}
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  .odo .odo-ghost {
+    color: inherit;
+  }
+  .odo .odo-reel {
+    visibility: hidden;
   }
 }
 

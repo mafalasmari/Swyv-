@@ -21,18 +21,14 @@ const COPY = {
   },
   en: {
     eyebrow: "Sample section",
-    title:
-      "One trip: daytime delivery to your branches, returns recovered on the way back",
+    title: "One trip: daytime delivery to your branches, returns recovered on the way back",
     body: "Your trucks unload at night on the edge of Riyadh. Our vans deliver your branches by day and bring the returns back.",
     action: "Request a 30-day pilot",
-    after:
-      "Content after the hero, to check that scrolling carries on normally.",
+    after: "Content after the hero, to check that scrolling carries on normally.",
   },
 };
 
-export default async function ScrollHeroTestPage({
-  params,
-}: PageProps<"/[lang]/test-hero">) {
+export default async function ScrollHeroTestPage({ params }: PageProps<"/[lang]/test-hero">) {
   const locale = await getLocale(params);
   const c = COPY[locale];
 

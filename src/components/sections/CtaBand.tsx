@@ -22,7 +22,10 @@ export function CtaBand({
 }) {
   const red = tone === "red";
   return (
-    <section className={cn("relative overflow-hidden", red ? "bg-red text-white" : "section-dark")}>
+    <section
+      data-header-theme={red ? "dark" : undefined}
+      className={cn("relative overflow-hidden", red ? "bg-red text-white" : "section-dark")}
+    >
       <Chevron
         aria-hidden
         direction="down"

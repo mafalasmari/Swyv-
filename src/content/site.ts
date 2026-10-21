@@ -19,6 +19,7 @@ export const routes = {
 } as const;
 
 export type RouteKey = keyof typeof routes;
+export type NavMenuKey = "services" | "industries" | "portal" | "about";
 
 /**
  * Where "Client login" points. Set NEXT_PUBLIC_PORTAL_URL once the live portal
@@ -35,14 +36,18 @@ export const site = {
   ),
   city: t("الرياض، المملكة العربية السعودية", "Riyadh, Kingdom of Saudi Arabia"),
   skipToContent: t("تخطَّ إلى المحتوى", "Skip to content"),
+  /** Main navigation. Items with a menu open a two-column panel built in lib/navMenus. */
   nav: [
-    { route: "services", label: t("الخدمات", "Services") },
+    { route: "home", label: t("الرئيسية", "Home") },
+    { route: "services", label: t("الخدمات", "Services"), menu: "services" },
     { route: "howItWorks", label: t("كيف نعمل", "How it works") },
-    { route: "industries", label: t("القطاعات", "Industries") },
-    { route: "portal", label: t("بوابة SWYV", "SWYV Portal") },
-    { route: "about", label: t("من نحن", "About") },
+    { route: "industries", label: t("القطاعات", "Industries"), menu: "industries" },
+    { route: "portal", label: t("بوابة SWYV", "SWYV Portal"), menu: "portal" },
+    { route: "about", label: t("من نحن", "About"), menu: "about" },
     { route: "contact", label: t("تواصل معنا", "Contact") },
-  ] satisfies { route: RouteKey; label: unknown }[],
+  ] satisfies { route: RouteKey; label: unknown; menu?: NavMenuKey }[],
+  /** Screen-reader label of the button that opens an item's menu, followed by the item name. */
+  showMenu: t("عرض قائمة", "Show menu:"),
   switchLanguage: t("English", "العربية"),
   switchLanguageLabel: t("التبديل إلى الإنجليزية", "Switch to Arabic"),
   clientLogin: t("دخول العملاء", "Client login"),

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { savingsCopy } from "@/content/tools";
 import type { Locale } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { FieldLabel, NumberInput } from "@/components/ui/controls";
 import { fmt, sar } from "@/lib/format";
 import { estimateSavings, type SavingsInput } from "@/lib/savings";
@@ -48,16 +49,16 @@ export function SavingsCalculator({ locale }: { locale: Locale }) {
       </form>
 
       <div className="flex flex-col border-t border-line bg-panel lg:border-s lg:border-t-0" aria-live="polite">
-        <Output label={copy.outputs.tripsSaved} value={fmt(result.tripsSaved)} />
-        <Output label={copy.outputs.monthly} value={sar(result.monthly)} />
-        <Output label={copy.outputs.annual} value={sar(result.annual)} accent />
+        <Output label={copy.outputs.tripsSaved} value={<AnimatedNumber value={result.tripsSaved} format={fmt} />} />
+        <Output label={copy.outputs.monthly} value={<AnimatedNumber value={result.monthly} format={sar} />} />
+        <Output label={copy.outputs.annual} value={<AnimatedNumber value={result.annual} format={sar} />} accent />
         <p className="mt-auto p-6 text-xs text-steel sm:px-8">{copy.note}</p>
       </div>
     </div>
   );
 }
 
-function Output({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Output({ label, value, accent }: { label: string; value: ReactNode; accent?: boolean }) {
   return (
     <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line px-6 py-5 sm:px-8">
       <span className="text-sm text-steel">{label}</span>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { telemetryCopy } from "@/content/tools";
 import type { Locale } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { Segmented, Select, TextInput } from "@/components/ui/controls";
 import { Chevron, SortIcon } from "@/components/ui/icons";
 import { Stat } from "@/components/ui/Stat";
@@ -131,10 +132,10 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-px bg-line lg:grid-cols-4">
-        <Stat className="border-0" label={copy.kpis.active} value={fmt(kpis.active)} />
-        <Stat className="border-0" label={copy.kpis.avgDwell} value={duration(kpis.avgDwell)} />
-        <Stat className="border-0" label={copy.kpis.overSla} value={fmt(kpis.over)} accent={kpis.over > 0} />
-        <Stat className="border-0" label={copy.kpis.exceptions} value={fmt(kpis.exceptions)} accent={kpis.exceptions > 0} />
+        <Stat className="border-0" label={copy.kpis.active} value={<AnimatedNumber value={kpis.active} format={fmt} />} />
+        <Stat className="border-0" label={copy.kpis.avgDwell} value={<AnimatedNumber value={kpis.avgDwell} format={duration} />} />
+        <Stat className="border-0" label={copy.kpis.overSla} value={<AnimatedNumber value={kpis.over} format={fmt} />} accent={kpis.over > 0} />
+        <Stat className="border-0" label={copy.kpis.exceptions} value={<AnimatedNumber value={kpis.exceptions} format={fmt} />} accent={kpis.exceptions > 0} />
       </div>
 
       {/* Filters */}

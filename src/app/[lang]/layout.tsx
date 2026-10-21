@@ -10,6 +10,7 @@ import { PORTAL_URL, routes, site } from "@/content/site";
 import { SITE_URL, dirOf, href, locales } from "@/i18n/config";
 import { localize } from "@/i18n/localize";
 import { fontVariables } from "@/lib/fonts";
+import { navMenus } from "@/lib/navMenus";
 import { getLocale } from "@/lib/params";
 
 export function generateStaticParams() {
@@ -30,9 +31,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const locale = await getLocale(params);
   const s = localize(site, locale);
   const link = (route: keyof typeof routes, hash = "") => href(locale, routes[route]) + hash;
+  const menus = navMenus(locale);
 
   return (
-    <html lang={locale} dir={dirOf(locale)} className={`${fontVariables} h-full`}>
+    // data-theme follows the section under the header (SiteHeader); pages open on a dark hero.
+    <html lang={locale} dir={dirOf(locale)} data-theme="dark" className={`${fontVariables} h-full`}>
       {/* The intro's boot script sets body overflow before hydration. */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <IntroLoader />
@@ -46,7 +49,12 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           locale={locale}
           copy={{
             homeHref: link("home"),
-            nav: s.nav.map((item) => ({ href: link(item.route), label: item.label })),
+            nav: s.nav.map((item) => ({
+              href: link(item.route),
+              label: item.label,
+              children: "menu" in item && item.menu ? menus[item.menu] : undefined,
+            })),
+            showMenu: s.showMenu,
             login: { href: PORTAL_URL || link("portal"), label: s.clientLogin },
             cta: { href: link("pilot"), label: s.primaryCta },
             switchLanguage: s.switchLanguage,

@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Chevron } from "@/components/ui/icons";
+import { RevealGroup } from "@/components/ui/RevealGroup";
 import { cn } from "@/lib/cn";
+import { revealItem } from "@/lib/reveal";
 
 export type Step = { title: string; body: string; dir?: string; extra?: ReactNode };
 
@@ -10,9 +12,17 @@ export type Step = { title: string; body: string; dir?: string; extra?: ReactNod
  */
 export function StepTimeline({ steps, columns = false }: { steps: Step[]; columns?: boolean }) {
   return (
-    <ol className={cn("grid border-t border-s border-rule", columns && "sm:grid-cols-2 lg:grid-cols-4")}>
+    <RevealGroup
+      as="ol"
+      wrap={false}
+      className={cn("grid border-t border-s border-rule", columns && "sm:grid-cols-2 lg:grid-cols-4")}
+    >
       {steps.map((step, i) => (
-        <li key={step.title} className="flex flex-col gap-4 border-e border-b border-rule p-6 sm:p-8">
+        <li
+          key={step.title}
+          style={revealItem(i).style}
+          className={cn(revealItem(i).className, "flex flex-col gap-4 border-e border-b border-rule p-6 sm:p-8")}
+        >
           <div className="flex items-center justify-between">
             <span className="num text-sm text-red">{String(i + 1).padStart(2, "0")}</span>
             {step.dir && (
@@ -27,6 +37,6 @@ export function StepTimeline({ steps, columns = false }: { steps: Step[]; column
           {step.extra}
         </li>
       ))}
-    </ol>
+    </RevealGroup>
   );
 }

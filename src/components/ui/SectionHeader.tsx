@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Eyebrow } from "./Eyebrow";
+import { Reveal } from "./Reveal";
 
 type SectionHeaderProps = {
   index?: string;
@@ -22,8 +23,13 @@ export function SectionHeader({
   className,
   action,
 }: SectionHeaderProps) {
+  // Page titles (h1) are on screen at load, so only section headings rise in.
+  const Root = Heading === "h1" ? "header" : Reveal;
   return (
-    <header className={cn("flex flex-col gap-6 md:flex-row md:items-end md:justify-between", className)}>
+    <Root
+      {...(Heading === "h1" ? {} : { as: "header" })}
+      className={cn("flex flex-col gap-6 md:flex-row md:items-end md:justify-between", className)}
+    >
       <div className="flex max-w-3xl flex-col gap-4">
         {eyebrow && <Eyebrow index={index}>{eyebrow}</Eyebrow>}
         <Heading
@@ -37,6 +43,6 @@ export function SectionHeader({
         {description && <p className="text-base leading-relaxed text-pretty text-muted sm:text-lg">{description}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
-    </header>
+    </Root>
   );
 }

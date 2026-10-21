@@ -9,6 +9,11 @@ import { useEffect } from "react";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 let registered = false;
+let current: Lenis | null = null;
+
+/** The running Lenis instance, or null (reduced motion, or not mounted yet). */
+export const getLenis = () => current;
+
 const registerGsap = () => {
   if (registered) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -55,6 +60,8 @@ export function SmoothScrollProvider() {
         anchors: true,
       });
 
+      current = lenis;
+
       const raf = (time: number) => lenis.raf(time * 1000);
       gsap.ticker.add(raf);
       gsap.ticker.lagSmoothing(0);
@@ -71,6 +78,7 @@ export function SmoothScrollProvider() {
         lockObserver.disconnect();
         gsap.ticker.remove(raf);
         lenis.destroy();
+        current = null;
         ScrollTrigger.getAll().forEach((t) => t.kill());
       };
     };

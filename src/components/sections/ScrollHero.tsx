@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
+import { getLenis } from "@/components/layout/SmoothScrollProvider";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import type { Locale } from "@/i18n/config";
@@ -62,26 +63,16 @@ function renderTitle(text: string, locale: Locale) {
  * holds the full text from the first render; with reduced motion the hero is one
  * screen tall and everything is shown at once.
  */
-export function ScrollHero({
-  title,
-  locale,
-  media,
-  eyebrow,
-  description,
-  actions,
-  className,
-}: ScrollHeroProps) {
+export function ScrollHero({ title, locale, media, eyebrow, description, actions, className }: ScrollHeroProps) {
   const rootRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
 
   useGsap(
     rootRef,
-    ({ gsap }) => {
+    ({ gsap, ScrollTrigger }) => {
       const isAr = locale === "ar";
-      const units = titleRef.current!.querySelectorAll(
-        isAr ? ".sh-word" : ".sh-char",
-      );
+      const units = titleRef.current!.querySelectorAll(isAr ? ".sh-word" : ".sh-char");
       if (!units.length) return;
 
       // Per-unit timing from the spec: 500ms each, 70ms (letters) or 45ms (words)
@@ -100,12 +91,7 @@ export function ScrollHero({
           scrub: 1,
         },
       });
-      tl.fromTo(
-        units,
-        { opacity: 0, y: isAr ? 20 : "100%" },
-        { opacity: 1, y: 0, duration: each, stagger },
-        0,
-      );
+      tl.fromTo(units, { opacity: 0, y: isAr ? 20 : "100%" }, { opacity: 1, y: 0, duration: each, stagger }, 0);
       if (restRef.current) {
         tl.fromTo(
           restRef.current,
@@ -114,18 +100,26 @@ export function ScrollHero({
           total * REST_START,
         );
       }
-      tl.to(
-        titleRef.current,
-        { yPercent: -8, ease: "none", duration: total * (1 - SHIFT_START) },
-        total * SHIFT_START,
-      );
+      tl.to(titleRef.current, { yPercent: -8, ease: "none", duration: total * (1 - SHIFT_START) }, total * SHIFT_START);
 
-      // Tabbing into the still-hidden buttons scrolls to where they are fully shown.
+      // TASK-6B: tabbing into the still-hidden copy or buttons jumps (no smooth
+      // scroll) to where they are fully shown, and skips the scrub's catch-up.
       const rest = restRef.current;
       const onFocus = () => {
         const st = tl.scrollTrigger!;
-        const shown = st.start + (st.end - st.start) * REVEAL_END;
-        if (window.scrollY < shown) window.scrollTo({ top: shown });
+        const shown = Math.ceil(st.start + (st.end - st.start) * REVEAL_END);
+        if (window.scrollY >= shown) return;
+        const lenis = getLenis();
+        if (lenis) {
+          const wasStopped = lenis.isStopped;
+          lenis.stop();
+          lenis.scrollTo(shown, { immediate: true, force: true });
+          if (!wasStopped) lenis.start();
+        } else {
+          window.scrollTo({ top: shown });
+        }
+        ScrollTrigger.update();
+        st.getTween()?.progress(1);
       };
       rest?.addEventListener("focusin", onFocus);
       return () => rest?.removeEventListener("focusin", onFocus);
@@ -137,18 +131,12 @@ export function ScrollHero({
     <section
       ref={rootRef}
       data-scroll-hero
-      className={cn(
-        "section-dark relative h-[200svh] md:h-[300svh] motion-reduce:h-auto",
-        className,
-      )}
+      className={cn("section-dark relative motion-safe:h-[200svh] motion-safe:md:h-[300svh]", className)}
     >
-      {/* The stage sits under the sticky header (64px + 1px border), so it is fully
-          on screen both at load and while pinned. */}
-      <div className="sticky top-[65px] flex h-[calc(100svh-65px)] items-center overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 text-muted"
-        >
+      {/* The stage sits under the sticky header, so it is fully on screen both at
+          load and while pinned. */}
+      <div className="sticky top-(--header-h) flex h-[calc(100svh-var(--header-h))] items-center overflow-hidden">
+        <div aria-hidden className="pointer-events-none absolute inset-0 text-muted">
           {media ?? <HubEastSVG className="size-full rtl:-scale-x-100" />}
         </div>
         <Container className="relative z-10 flex flex-col gap-6">
@@ -165,14 +153,8 @@ export function ScrollHero({
           </h1>
           {(description || actions) && (
             <div ref={restRef} className="sh-rest flex flex-col gap-6">
-              {description && (
-                <p className="max-w-2xl text-lg leading-relaxed text-pretty text-muted">
-                  {description}
-                </p>
-              )}
-              {actions && (
-                <div className="flex flex-col gap-3 sm:flex-row">{actions}</div>
-              )}
+              {description && <p className="max-w-2xl text-lg leading-relaxed text-pretty text-muted">{description}</p>}
+              {actions && <div className="flex flex-col gap-3 sm:flex-row">{actions}</div>}
             </div>
           )}
         </Container>

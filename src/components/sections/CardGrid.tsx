@@ -1,11 +1,15 @@
+import { RevealGroup } from "@/components/ui/RevealGroup";
 import { cn } from "@/lib/cn";
+import { revealItem } from "@/lib/reveal";
 
 export type Card = { id?: string; title: string; body: string; tag?: string };
 
 /** Bordered data grid of cards with mono indices. Cells share hairlines, no gaps. */
 export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns?: 2 | 3 | 4; muted?: boolean }) {
   return (
-    <ul
+    <RevealGroup
+      as="ul"
+      wrap={false}
       className={cn(
         "grid border-t border-s border-rule sm:grid-cols-2",
         columns === 3 && "lg:grid-cols-3",
@@ -16,7 +20,9 @@ export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns
         <li
           key={card.title}
           id={card.id}
+          style={revealItem(i).style}
           className={cn(
+            revealItem(i).className,
             "group flex scroll-mt-24 flex-col gap-3 border-e border-b border-rule p-6 transition-colors hover:bg-raised sm:p-7",
             muted && "text-fg/80",
           )}
@@ -33,6 +39,6 @@ export function CardGrid({ cards, columns = 3, muted }: { cards: Card[]; columns
           <p className="text-sm leading-relaxed text-muted">{card.body}</p>
         </li>
       ))}
-    </ul>
+    </RevealGroup>
   );
 }
