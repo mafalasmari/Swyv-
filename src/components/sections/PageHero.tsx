@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
+import { ScrollHero } from "./ScrollHero";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -11,10 +13,17 @@ type PageHeroProps = {
   /** Optional technical panel shown beside the copy on large screens. */
   aside?: ReactNode;
   size?: "lg" | "md";
+  /** Scroll-driven hero (ScrollHero). Needs a plain-text title and the locale; ignores aside and size. */
+  scroll?: boolean;
+  locale?: Locale;
 };
 
 /** Top-of-page block on the hairline grid, shared by every page. */
-export function PageHero({ eyebrow, title, description, actions, aside, size = "md" }: PageHeroProps) {
+export function PageHero({ eyebrow, title, description, actions, aside, size = "md", scroll, locale }: PageHeroProps) {
+  if (scroll && locale && typeof title === "string") {
+    return <ScrollHero title={title} locale={locale} eyebrow={eyebrow} description={description} actions={actions} />;
+  }
+
   return (
     <section className="section-dark bg-grid relative overflow-hidden">
       <div aria-hidden className="absolute inset-y-0 start-0 w-px bg-red/60" />

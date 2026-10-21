@@ -10,7 +10,7 @@ import { useEffect, type DependencyList, type RefObject } from "react";
  * React runs this cleanup, so its triggers are killed with it.
  */
 export function useGsap(
-  scope: RefObject<HTMLElement | null>,
+  scope: RefObject<Element | null>,
   setup: (context: { gsap: typeof gsap; ScrollTrigger: typeof ScrollTrigger }) => void,
   deps: DependencyList = [],
 ) {
