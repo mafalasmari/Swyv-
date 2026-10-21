@@ -48,7 +48,7 @@ export function SavingsCalculator({ locale }: { locale: Locale }) {
         <p className="text-xs leading-relaxed text-steel sm:col-span-2">{copy.formula}</p>
       </form>
 
-      <div className="flex flex-col border-t border-line bg-panel lg:border-s lg:border-t-0" aria-live="polite">
+      <div className="calc-result flex flex-col border-t border-line lg:border-s lg:border-t-0" aria-live="polite">
         <Output label={copy.outputs.tripsSaved} value={<AnimatedNumber value={result.tripsSaved} format={fmt} />} />
         <Output label={copy.outputs.monthly} value={<AnimatedNumber value={result.monthly} format={sar} />} />
         <Output label={copy.outputs.annual} value={<AnimatedNumber value={result.annual} format={sar} />} accent />

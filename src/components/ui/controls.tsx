@@ -1,9 +1,13 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-/** Shared control styling: flat, sharp, hairline border, red focus. */
+/**
+ * Shared control styling: a dark filled field with a single bottom line (var(--rule))
+ * that turns SWYV red on focus or error. The other sides keep a transparent 1px
+ * border, so every field keeps its exact size.
+ */
 export const controlClass =
-  "h-11 w-full border border-line bg-ink px-3 text-sm text-concrete outline-none transition-colors placeholder:text-steel/70 hover:border-steel/60 focus:border-red aria-invalid:border-red";
+  "h-11 w-full border border-transparent border-b-rule bg-ink px-3 text-sm text-concrete outline-none transition-colors placeholder:text-steel/70 hover:border-b-steel/60 focus:border-b-red aria-invalid:border-b-red";
 
 export function FieldLabel({
   label,
@@ -36,7 +40,7 @@ export function FieldLabel({
       </span>
       {children}
       {error && (
-        <span role="alert" className="text-xs text-red-bright">
+        <span role="alert" className="text-xs text-error">
           {error}
         </span>
       )}
@@ -131,7 +135,7 @@ export function Toggle({
   label: ReactNode;
 }) {
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-4 border border-line bg-ink px-3 py-2.5 text-sm">
+    <label className="flex cursor-pointer items-center justify-between gap-4 border border-transparent border-b-rule bg-ink px-3 py-2.5 text-sm">
       <span className="text-concrete/90">{label}</span>
       <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
       <span

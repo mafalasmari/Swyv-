@@ -142,7 +142,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
             </StatusTag>
           </div>
 
-          <div className="flex items-stretch gap-4 border border-line bg-night p-5">
+          <div className="flex items-stretch gap-4 border border-rule bg-raised p-5">
             <span aria-hidden className="w-1.5 shrink-0" style={{ background: ROUTE_META[best.route].color }} />
             <div className="flex flex-1 flex-col gap-1">
               <p className="text-2xl font-semibold sm:text-3xl">{l(ROUTE_META[best.route].label)}</p>
@@ -175,7 +175,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
                     <th className="py-2 text-start font-normal">{copy.headers.route}</th>
                     <th className="py-2 text-start font-normal">{copy.headers.score}</th>
                     <th className="py-2 text-end font-normal">{copy.headers.recovery}</th>
-                    <th className="py-2 text-end font-normal">{copy.headers.net}</th>
+                    <th className="min-w-[90px] py-2 text-end font-normal whitespace-nowrap">{copy.headers.net}</th>
                     <th className="py-2 text-end font-normal">{copy.headers.days}</th>
                   </tr>
                 </thead>
@@ -202,7 +202,7 @@ export function DispositionEngine({ locale }: { locale: Locale }) {
                         )}
                       </td>
                       <td className="num py-2.5 text-end">{pct(o.recoveryRate)}</td>
-                      <td className="num py-2.5 text-end">{sar(o.netValue)}</td>
+                      <td className="num min-w-[90px] py-2.5 text-end whitespace-nowrap">{sar(o.netValue)}</td>
                       <td className="num py-2.5 text-end">{o.cycleDays}</td>
                     </tr>
                   ))}

@@ -15,7 +15,7 @@ import { AllocationBar } from "./AllocationBar";
 import { LineChart } from "./LineChart";
 
 const BASELINE_COLOR = "var(--color-steel)";
-const SWYV_COLOR = "var(--color-red-bright)";
+const SWYV_COLOR = "var(--swyv-red)";
 
 export function DecisionSimulator({ locale }: { locale: Locale }) {
   const copy = localize(simulatorCopy, locale);

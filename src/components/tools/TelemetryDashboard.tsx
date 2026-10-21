@@ -237,7 +237,7 @@ export function TelemetryDashboard({ locale }: { locale: Locale }) {
               const ratio = dwellRatio(a);
               const tone = a.status === "delivered" ? "bg-delivered" : ratio > 1 ? "bg-red" : ratio > 0.8 ? "bg-pending" : "bg-steel";
               return (
-                <tr key={a.id} className="border-b border-line transition-colors hover:bg-panel">
+                <tr key={a.id} className="border-b border-line transition-colors odd:bg-surface even:bg-raised hover:bg-panel">
                   <td className="px-4 py-2.5">
                     <span className="flex items-center gap-2">
                       <Chevron
