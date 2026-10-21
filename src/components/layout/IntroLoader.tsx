@@ -5,7 +5,7 @@ import { InlineScript } from "./InlineScript";
 
 const STORAGE_KEY = "swyv-intro-seen-v1";
 /** Total length of the sequence; must match the CSS timeline in globals.css. */
-const TOTAL_MS = 1900;
+const TOTAL_MS = 2060;
 
 /**
  * Poppins ExtraBold outlines for "Swyv" (font units, baseline at y = 1050).
@@ -31,8 +31,11 @@ const BOX_HEIGHT = 1249;
 /** Matches the wordmark's -0.045em tracking. */
 const TRACKING = -45;
 
-/** Decides play/skip before first paint and owns the timeline even before hydration. */
-const BOOT = `(function(){var el=document.getElementById("swyv-intro");if(!el)return;var seen;try{seen=sessionStorage.getItem("${STORAGE_KEY}");sessionStorage.setItem("${STORAGE_KEY}","1")}catch(e){seen="1"}if(seen||matchMedia("(prefers-reduced-motion: reduce)").matches){el.setAttribute("data-intro","skip");return}el.setAttribute("data-intro","play");el.setAttribute("data-start",String(performance.now()));document.body.style.overflow="hidden";setTimeout(function(){if(el.getAttribute("data-intro")==="play"){el.setAttribute("data-intro","done");document.body.style.overflow=""}},${TOTAL_MS})})();`;
+/**
+ * Decides play/skip before first paint and owns the timeline even before hydration.
+ * Reduced motion skips without writing the session key, so turning it off later shows the intro.
+ */
+const BOOT = `(function(){var el=document.getElementById("swyv-intro");if(!el)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches){el.setAttribute("data-intro","skip");return}var seen;try{seen=sessionStorage.getItem("${STORAGE_KEY}");sessionStorage.setItem("${STORAGE_KEY}","1")}catch(e){seen="1"}if(seen){el.setAttribute("data-intro","skip");return}el.setAttribute("data-intro","play");el.setAttribute("data-start",String(performance.now()));document.body.style.overflow="hidden";setTimeout(function(){if(el.getAttribute("data-intro")==="play"){el.setAttribute("data-intro","done");document.body.style.overflow=""}},${TOTAL_MS})})();`;
 
 /**
  * Opening sequence: the chevron draws, "Swyv" rises letter by letter, breathes,
@@ -83,7 +86,16 @@ export function IntroLoader() {
 
   return (
     <>
-      <div ref={ref} id="swyv-intro" className="intro" data-intro="pending" aria-hidden suppressHydrationWarning>
+      <div
+        ref={ref}
+        id="swyv-intro"
+        className="intro"
+        data-intro="pending"
+        role="presentation"
+        aria-hidden="true"
+        aria-live="off"
+        suppressHydrationWarning
+      >
         <div className="intro-half intro-half-top">
           <div className="intro-stage intro-stage-top">
             <Mark />

@@ -209,8 +209,8 @@ html[lang="ar"] .font-mono:not(.num) {
 }
 
 /* ───────────── Intro loader ─────────────
-   Timeline (ms): 0–350 chevron draws · 350+70n letters rise (500 each) ·
-   900–1200 breathe · 1200–1900 split · 1900 removed. Keep TOTAL_MS in sync. */
+   Timeline (ms): 0–350 chevron draws · 350+70n letters rise (500 each, last ends 1060) ·
+   1060–1360 breathe · 1360–2060 split · 2060 removed. Keep TOTAL_MS in sync. */
 .intro {
   position: fixed;
   inset: 0;
@@ -286,17 +286,17 @@ html[lang="ar"] .font-mono:not(.num) {
   animation: intro-rise 500ms var(--ease-reveal) forwards;
 }
 .intro[data-intro="play"] .intro-mark {
-  animation: intro-breathe 300ms var(--ease-out) 900ms both;
+  animation: intro-breathe 300ms var(--ease-out) 1060ms both;
 }
 .intro[data-intro="play"] .intro-half-top {
-  animation: intro-split-up 700ms cubic-bezier(0.76, 0, 0.24, 1) 1200ms forwards;
+  animation: intro-split-up 700ms cubic-bezier(0.76, 0, 0.24, 1) 1360ms forwards;
 }
 .intro[data-intro="play"] .intro-half-bottom {
-  animation: intro-split-down 700ms cubic-bezier(0.76, 0, 0.24, 1) 1200ms forwards;
+  animation: intro-split-down 700ms cubic-bezier(0.76, 0, 0.24, 1) 1360ms forwards;
 }
-/* Safety net: hides the layer at 1900ms even if JavaScript never runs. */
+/* Safety net: hides the layer at 2060ms even if JavaScript never runs. */
 .intro[data-intro="play"] {
-  animation: intro-hide 1ms linear 1900ms forwards;
+  animation: intro-hide 1ms linear 2060ms forwards;
 }
 
 @keyframes intro-draw {
